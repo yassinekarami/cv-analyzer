@@ -1,17 +1,8 @@
-package org.cvanalyzer.backoffice;
-
-import org.apache.tika.Tika;
+package org.cvanalyzer.backoffice.service;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-public class DocumentService {
+public interface DocumentService {
 
-    public void detect(String inputPath) {
-        Tika tika = new Tika();
-        String mediaType = tika.detect(inputPath);
-
-
-    }
-
+    String extractContentFromFile(String input) throws IOException;
 }

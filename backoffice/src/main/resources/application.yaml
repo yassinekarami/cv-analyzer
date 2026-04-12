@@ -12,9 +12,9 @@ spring:
         options:
           model: gpt-4o-mini
 
-        embedding:
-          options:
-            model: text-embedding-3-small
+      embedding:
+        options:
+          model: text-embedding-3-small
 #    ollama:
 #      base-url: http://localhost:11434ttt
 #      chat:
