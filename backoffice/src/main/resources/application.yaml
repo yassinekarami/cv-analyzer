@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/admin
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+#https://platform.openai.com/settings/organization/billing/overview
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+
+        embedding:
+          options:
+            model: text-embedding-3-small
+#    ollama:
+#      base-url: http://localhost:11434ttt
+#      chat:
+#        options:
+#          model: mistral
+#      embedding:
+#        options:
+#          model: nomic-embed-text
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimension: 768

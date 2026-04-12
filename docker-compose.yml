@@ -1,0 +1,66 @@
+services:
+
+#  app:
+#    build: ./backoffice
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - backoffice
+
+  postgres:
+    image: pgvector/pgvector:pg18-trixie
+
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - backoffice
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - backoffice
+    depends_on:
+      - postgres
+
+#  ollama:
+#    image: ollama/ollama:latest
+#    ports:
+#      - "11434:11434"
+#    volumes:
+#      - ollama_data:/root/.ollama
+#    restart: always
+#    networks:
+#      - backoffice
+
+
+#  ollama-init:
+#    image: curlimages/curl:latest
+#    depends_on:
+#      - ollama
+#    entrypoint: >
+#      sh -c "
+#      echo 'Waiting for Ollama...' &&
+#      sleep 5 &&
+#      curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"mistral\"}' &&
+#      curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"nomic-embed-text\"}'
+#      "
+#    networks:
+#      - backoffice
+
+volumes:
+  pgdata:
+#  ollama_data:
+
+networks:
+  backoffice:
+    name: backoffice
+    driver: bridge
