@@ -3,7 +3,6 @@ package org.cvanalyzer.backoffice.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.cvanalyzer.backoffice.service.AiService;
 import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class OpenAIServiceImpl implements AiService {
+public class OpenAIServiceImpl {
 
     @Value("${spring.ai.openai.api-key}")
     private String openAiKey;
