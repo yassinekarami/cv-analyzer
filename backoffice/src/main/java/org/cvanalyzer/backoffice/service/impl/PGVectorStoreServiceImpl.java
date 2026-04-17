@@ -37,10 +37,9 @@ public class PGVectorStoreServiceImpl implements VectorStoreService {
      */
     @Override
     public List<Document> findDocumentBySimilarity() {
-        this.pgVectorStore
-                .similaritySearch(SearchRequest.builder().query("Robotics")
+        return this.pgVectorStore
+                .similaritySearch(SearchRequest.builder().query("Captain of the black pearl")
                         .topK(1).build());
-        return null;
     }
 
     /**
@@ -61,7 +60,7 @@ public class PGVectorStoreServiceImpl implements VectorStoreService {
             }
             else {
                 chunkPosition ++;
-                docs.add(new Document(builder.toString(), Map.of(documentName, chunkPosition)));
+                docs.add(new Document(builder.toString(), Map.of("fileName", documentName)));
                 builder = new StringBuilder();
             }
         }
