@@ -19,7 +19,8 @@ public interface  VectorStoreService {
 
     /**
      * perform a similarity search on the vectorStore and return result
+     * @param query the query to use for similarity search
      * @return a list of document returned by the similarity search
      */
-    List<Document> findDocumentBySimilarity();
+    List<Document> findDocumentBySimilarity(String query);
 }

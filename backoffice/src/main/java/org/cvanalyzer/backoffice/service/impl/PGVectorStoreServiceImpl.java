@@ -36,9 +36,9 @@ public class PGVectorStoreServiceImpl implements VectorStoreService {
      * {@inheritDoc}
      */
     @Override
-    public List<Document> findDocumentBySimilarity() {
+    public List<Document> findDocumentBySimilarity(String query) {
         return this.pgVectorStore
-                .similaritySearch(SearchRequest.builder().query("Captain of the black pearl")
+                .similaritySearch(SearchRequest.builder().query(query)
                         .topK(1).build());
     }
 

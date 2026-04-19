@@ -31,3 +31,9 @@ spring:
 file:
   storage:
     location: "upload-dir"
+
+logging:
+  level:
+    org:
+      springframework:
+        ai: DEBUG
