@@ -60,7 +60,7 @@ public class PGVectorStoreServiceImpl implements VectorStoreService {
             }
             else {
                 chunkPosition ++;
-                docs.add(new Document(builder.toString(), Map.of("fileName", documentName)));
+                docs.add(new Document(builder.toString(), Map.of("fileName", documentName, "position", chunkPosition)));
                 builder = new StringBuilder();
             }
         }

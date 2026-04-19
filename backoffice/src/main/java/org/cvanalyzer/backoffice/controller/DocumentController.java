@@ -27,7 +27,7 @@ public class DocumentController {
 
         String res = cvAnalysisHandler.handleFileImport(file);
 //        String res = cvAnalysisHandler.handleFileImport("/home/yassine/Bureau/cv-analyzer/backoffice/src/main/resources/cv-1.pdf");
-        return ResponseEntity.ok().body(res);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/search")
