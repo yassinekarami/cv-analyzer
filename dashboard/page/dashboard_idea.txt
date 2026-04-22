@@ -1,0 +1,68 @@
+1. Infos générales du CV
+Nombre total de CV analysés
+Répartition par poste recherché
+Localisation des candidats
+Niveau d’expérience moyen (junior, confirmé, senior)
+
+👉 Donne une vue globale rapide du “pool” de candidats.
+
+🧠 2. Compétences (Skills)
+Top compétences les plus fréquentes
+Compétences rares / différenciantes
+Matching compétences vs offre d’emploi (%)
+Hard skills vs soft skills
+
+👉 C’est souvent la partie la plus importante pour le tri automatique.
+
+🎓 3. Formation
+Niveau d’étude (Bac, Master, etc.)
+Écoles / universités les plus fréquentes
+Domaines d’études
+💼 4. Expérience professionnelle
+Années d’expérience moyenne
+Entreprises les plus représentées
+Durée moyenne par poste
+Stabilité (nombre de changements de job)
+🤖 5. Score de matching / scoring
+Score global du candidat (ex: 0–100)
+Matching avec une fiche de poste spécifique
+Ranking des meilleurs profils
+
+👉 Important : expliquer comment le score est calculé (transparence).
+
+⚠️ 6. Points d’attention (flags)
+Trous dans le CV
+Compétences manquantes
+Incohérences (dates, expériences)
+
+📈 7. Statistiques avancées
+Taux de CV compatibles avec une offre
+Temps moyen de recrutement estimé
+Pipeline de candidats (screening → entretien → embauche)
+🧩 8. NLP / Analyse de texte (si tu vas plus loin)
+Mots-clés les plus utilisés
+Analyse de sentiment (optionnel)
+Similarité entre CV
+
+👉 Là tu touches à des concepts comme le Traitement du langage naturel et le Machine Learning.
+
+🎯 Ce qu’il faut éviter
+Trop de métriques inutiles
+Graphiques sans action derrière
+Scores “magiques” incompréhensibles
+
+💡 Bonus (très utile en pratique)
+
+Ajoute des filtres interactifs :
+
+par compétence
+par expérience
+par localisation
+par score
+
+Si tu veux, dis-moi :
+
+ton niveau (étudiant, dev, RH…)
+et l’outil que tu utilises (Power BI, Python, Excel, etc.)
+
+Je peux te proposer un exemple concret de dashboard ou maquette adapté à ton projet 👍

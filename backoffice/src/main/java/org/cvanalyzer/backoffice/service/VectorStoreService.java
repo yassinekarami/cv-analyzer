@@ -1,5 +1,6 @@
 package org.cvanalyzer.backoffice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.ai.document.Document;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface  VectorStoreService {
      * @param text the text to insert
      * @param name the file name used for metadata
      */
-    void insertIntoVectorStore(String text, String name);
+    void insertIntoVectorStore(String text, String name) throws JsonProcessingException;
 
 
     /**

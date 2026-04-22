@@ -7,6 +7,14 @@ services:
 #    networks:
 #      - backoffice
 
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./dashboard:/app
+    networks:
+      - backoffice
   postgres:
     image: pgvector/pgvector:pg18-trixie
 

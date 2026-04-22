@@ -44,28 +44,4 @@ public class CVAnalysisHandler {
 
         return "OK";
     }
-
-
-//    public String handleFileSimilaritySearch() {
-//        List<Document> results = vectorStoreService.findDocumentBySimilarity("Captain of the black pearl");
-//
-//        Set<Map<String, Object>> metadatas = extractMetaData(results);
-//        List<String> filesName = extractFilesNameFromMetadatas(metadatas);
-//        storageService.loadAsResources(filesName);
-//        return results.stream().findFirst().toString();
-//    }
-//
-//
-//    private Set<Map<String, Object>> extractMetaData(List<Document> documents) {
-//        return documents.stream()
-//                .map(Document::getMetadata)
-//                .collect(Collectors.toUnmodifiableSet());
-//    }
-//
-//    private List<String> extractFilesNameFromMetadatas(Set<Map<String, Object>> metadatas) {
-//        return metadatas.stream()
-//                .map(metadata -> (String) metadata.get("fileName"))
-//                .filter(Objects::nonNull)
-//                .toList();
-//    }
 }

@@ -1,0 +1,88 @@
+AssistantMessage [messageType=ASSISTANT, toolCalls=[], textContent=```json
+{
+  "profile": {
+    "name": "Jack Sparrow",
+    "email": "jack@sparrow.com",
+    "nationality": "English",
+    "links": [
+      "https://academia.edu/JackSparrow",
+      "github.com/sparrow",
+      "orcid.org/0000-0000-0000-0000"
+    ],
+    "title": "Captain",
+    "languages": {
+      "English": "C",
+      "French": "B"
+    }
+  },
+  "experience": [
+    {
+      "role": "Captain of the Black Pearl",
+      "dates": "L",
+      "company": "The Black Pearl",
+      "location": "East Indies",
+      "description": "Finally got the goddamn ship back."
+    },
+    {
+      "role": "Freelance Pirate",
+      "dates": "B",
+      "company": "Tortuga",
+      "location": "Tortuga",
+      "description": "This and that. The usual, aye?"
+    },
+    {
+      "role": "Captain of the Black Pearl",
+      "dates": "L",
+      "company": "Tortuga",
+      "location": "Tortuga",
+      "description": "Found a secret treasure, lost the ship."
+    }
+  ],
+  "education": [
+    {
+      "degree": "M.A.",
+      "school": "Uni Bucaneering",
+      "year": "London"
+    },
+    {
+      "degree": "B.A.",
+      "school": "Bucaneering",
+      "year": "London"
+    }
+  ],
+  "skills": [
+    "Python",
+    "Machine Learning",
+    "Bootstrap",
+    "jQuery",
+    "Databases",
+    "C++",
+    "C & G"
+  ],
+  "publications": [
+    {
+      "title": "How I almost got killed by Lady Swan",
+      "publisher": "Tortuga Printing Press"
+    },
+    {
+      "title": "Privateering for Beginners",
+      "publisher": "The Pragmatic Pirate"
+    }
+  ],
+  "talks": [
+    {
+      "title": "How I lost my ship (& and how to get it back)",
+      "event": "Annual Pirate's Conference",
+      "location": "Tortuga",
+      "date": "Nov."
+    }
+  ],
+  "certifications": [
+    {
+      "title": "Captain's Certificates",
+      "description": "Travel grant from the Pirate's Company"
+    }
+  ],
+  "other": []
+}
+```, metadata={finishReason=STOP, refusal=, index=0, id=chatcmpl-DWUjcFLNuiaTyMMeUzaF8fxHKe4F3, role=ASSISTANT, messageType=ASSISTANT}]
