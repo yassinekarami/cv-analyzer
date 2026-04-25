@@ -1,6 +1,7 @@
 package org.cvanalyzer.backoffice.controller;
 
 import lombok.AllArgsConstructor;
+import org.cvanalyzer.backoffice.ai.prompt.Prompts;
 import org.cvanalyzer.backoffice.component.AIAgent;
 import org.cvanalyzer.backoffice.component.CVAnalysisHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -33,10 +35,14 @@ public class DocumentController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<String> search(@RequestParam String query) {
-      //  String res = agent.askAgent("Captain of the black pearl");
-        String res = agent.askAgent(query);
-       // String res = cvAnalysisHandler.handleFileSimilaritySearch();
+    public ResponseEntity<String> searchCv(@RequestParam String query) {
+        String res = agent.askAgent(Prompts.CV_MATCH,query);
         return ResponseEntity.ok().body(res);
+    }
+
+    @GetMapping("/search/skills")
+    public ResponseEntity<String> searchSkills(@RequestParam List<String> query) {
+        String res = agent.askAgent(Prompts.SKILL_MATCH, query.toString());
+        return ResponseEntity.ok("received: " + query);
     }
 }

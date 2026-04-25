@@ -1,12 +1,15 @@
 package org.cvanalyzer.backoffice.component;
 
 import org.cvanalyzer.backoffice.ai.tools.CvMatcherTool;
+import org.cvanalyzer.backoffice.ai.tools.CvScoreTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+
+import static org.cvanalyzer.backoffice.ai.prompt.Prompts.AGENT_DEFAULT_SYSTEM_PROMPT;
 
 /**
  * AIAgent used to call tools
@@ -22,40 +25,27 @@ public class AIAgent {
      * @param builder
      * @param memory
      * @param cvMatcherTool
+     * @param cvScoreTool
      */
-    private AIAgent(ChatClient.Builder builder, ChatMemory memory, CvMatcherTool cvMatcherTool) {
+    private AIAgent(ChatClient.Builder builder, ChatMemory memory, CvMatcherTool cvMatcherTool, CvScoreTool cvScoreTool) {
 
         this.chatClient = builder
-                .defaultSystem("""
-            You are an HR assistant specialized in CV matching.
-
-            You do NOT have access to any CV data.
-
-            To answer:
-            - You MUST call the tool 'findBySimilarity'
-            - The tool is the ONLY way to retrieve CVs
-            - Do not answer without using the tool
-        """) .defaultAdvisors(
+                .defaultSystem(AGENT_DEFAULT_SYSTEM_PROMPT) .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(memory).build()
                 )
-                .defaultTools(ToolCallbacks.from(cvMatcherTool))
+                .defaultTools(ToolCallbacks.from(cvMatcherTool, cvScoreTool))
                 .build();
     }
 
     /**
-     *
-     * @param query
-     * @return
+     * make a call to the chatclient with a prompt and a query
+     * @param prompt the prompt used by the chat client
+     * @param query the query
+     * @return the prompt response
      */
-    public String askAgent(String query) {
+    public String askAgent(String prompt, String query) {
         return chatClient.prompt()
-                .user("""
-                    Find the best matching CV for the following request:
-
-                    %s
-
-                    You must call the tool 'findBySimilarity' before answering.
-                """.formatted(query))
+                .user(prompt.formatted(query))
                     .call()
                     .content();
     }

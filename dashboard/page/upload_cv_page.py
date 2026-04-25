@@ -22,7 +22,7 @@ if submit:
         bytes_data = file_to_upload.getvalue()
 
         files = {
-            "file": ("uploaded.pdf", BytesIO(bytes_data), "application/pdf")
+            "file": (file_to_upload.name, BytesIO(bytes_data), "application/pdf")
         }
 
         response = requests.post("http://localhost:8080/upload", files=files)

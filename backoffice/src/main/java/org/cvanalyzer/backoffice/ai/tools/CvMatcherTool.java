@@ -2,6 +2,7 @@ package org.cvanalyzer.backoffice.ai.tools;
 
 import lombok.AllArgsConstructor;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
+import org.cvanalyzer.backoffice.utils.CvAnalyzerUtils;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class CvMatcherTool {
 
     /**
-     * pgVectoreStore
+     * service for querying  the vector store
      */
     @Autowired
     private final VectorStoreService pgVectorStore;
@@ -33,36 +34,13 @@ public class CvMatcherTool {
      */
     @Tool(name = "findBySimilarity", description = "Search CVs using similarity")
     public String findBySimilarity(String query) {
-        List<Document> results = pgVectorStore.findDocumentBySimilarity(query);
+        List<Document> results = pgVectorStore.findDocumentBySimilarity(query, 1);
 
-        Set<Map<String, Object>> metadatas = extractMetaData(results);
-        List<String> filesName = extractFilesNameFromMetadatas(metadatas);
+        Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
+        List<String> filesName = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
        // storageService.loadAsResources(filesName);
         return filesName.toString();
 
-    }
-
-    /**
-     * method to extract metadata from documents
-     * @param documents list of documents to extract metadata from
-     * @return set of map containing metadata
-     */
-    private Set<Map<String, Object>> extractMetaData(List<Document> documents) {
-        return documents.stream()
-                .map(Document::getMetadata)
-                .collect(Collectors.toUnmodifiableSet());
-    }
-
-    /**
-     * extract filename for a set of metadatas
-     * @param metadatas set of metadata
-     * @return a list of filenames
-     */
-    private List<String> extractFilesNameFromMetadatas(Set<Map<String, Object>> metadatas) {
-        return metadatas.stream()
-                .map(metadata -> (String) metadata.get("fileName"))
-                .filter(Objects::nonNull)
-                .toList();
     }
 
 }

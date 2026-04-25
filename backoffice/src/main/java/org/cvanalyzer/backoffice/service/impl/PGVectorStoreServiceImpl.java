@@ -9,6 +9,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.filter.Filter;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,7 +122,6 @@ Now generate the JSON resume.
 
        String message = chatResponse.getResult().getOutput().getText();
        CvDto cv = objectMapper.readValue(message, CvDto.class);
-        List<Document> chunks = this.buildChunksFromString(text, filename);
        // pgVectorStore.add( chatResponse.getResult().getOutput());
         pgVectorStore.add(convertCvDtoToDocument(cv, filename));
     }
@@ -142,10 +142,21 @@ Now generate the JSON resume.
      * {@inheritDoc}
      */
     @Override
-    public List<Document> findDocumentBySimilarity(String query) {
+    public List<Document> findDocumentBySimilarity(String query, int topK) {
         return this.pgVectorStore
                 .similaritySearch(SearchRequest.builder().query(query)
-                        .topK(1).build());
+                        .topK(topK).build());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Document> findDocumentBySimilarityAndMetadata(String query, Filter.Expression expression, int topK) {
+        return this.pgVectorStore
+                .similaritySearch(SearchRequest.builder().query(query)
+                        .filterExpression(expression)
+                        .topK(topK).build());
     }
 
     /**

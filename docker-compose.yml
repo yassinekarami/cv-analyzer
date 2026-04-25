@@ -1,9 +1,11 @@
 services:
 
-#  app:
+#  backoffice:
 #    build: ./backoffice
 #    ports:
 #      - "8080:8080"
+#    volumes:
+#      - ./backoffice:/backoffice
 #    networks:
 #      - backoffice
 
@@ -15,6 +17,9 @@ services:
       - ./dashboard:/app
     networks:
       - backoffice
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   postgres:
     image: pgvector/pgvector:pg18-trixie
 
