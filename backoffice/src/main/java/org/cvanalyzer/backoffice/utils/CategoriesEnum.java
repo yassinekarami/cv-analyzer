@@ -4,37 +4,50 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+//PROFILE         = 0.10,
+//EXPERIENCE      = 0.35,
+//SKILLS          = 0.25,
+//PUBLICATIONS    = 0.08,
+//TALKS           = 0.07,
+//CERTIFICATIONS  = 0.10,
+//OTHER           = 0.05
 
 @Getter
 public enum CategoriesEnum {
 
-    PROFILE("profile"),
+    PROFILE("profile", "0.10"),
 
-    EXPERIENCE("experience"),
+    EXPERIENCE("experience", "0.35"),
 
-    SKILLS("skills"),
+    SKILLS("skills", "0.25"),
 
-    PUBLICATIONS("publications"),
+    PUBLICATIONS("publications", "0.08"),
 
-    TALKS("talks"),
+    TALKS("talks", "0.07"),
 
-    CERTIFICATIONS("certifications"),
+    CERTIFICATIONS("certifications", "0.10"),
 
-    OTHER("other")
+    OTHER("other", "0.05")
     ;
 
     /**
      * the value
      */
-    public String value;
+    public final String value;
+
+    /**
+     * the coefficient
+     */
+    public final String coefficient;
 
     /**
      * constructor
      * @param value the value
      */
-    CategoriesEnum(String value) {
+    CategoriesEnum(String value, String coefficient) {
         this.value = value;
+        this.coefficient = coefficient;
     }
 
     /**
@@ -42,7 +55,7 @@ public enum CategoriesEnum {
      * @param categorie the value to retrieve
      * @return the string vale
      */
-    public CategoriesEnum fromValue(String categorie) {
+    public static CategoriesEnum fromValue(String categorie) {
         return Arrays.stream(CategoriesEnum.values())
                 .filter(c -> c.getValue().equalsIgnoreCase(categorie))
                 .findFirst()

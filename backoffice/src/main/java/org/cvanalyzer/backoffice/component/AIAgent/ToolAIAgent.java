@@ -1,4 +1,4 @@
-package org.cvanalyzer.backoffice.component;
+package org.cvanalyzer.backoffice.component.AIAgent;
 
 import org.cvanalyzer.backoffice.ai.tools.CvMatcherTool;
 import org.cvanalyzer.backoffice.ai.tools.CvScoreTool;
@@ -8,7 +8,6 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 
 import static org.cvanalyzer.backoffice.ai.prompt.Prompts.AGENT_DEFAULT_SYSTEM_PROMPT;
 
@@ -16,9 +15,7 @@ import static org.cvanalyzer.backoffice.ai.prompt.Prompts.AGENT_DEFAULT_SYSTEM_P
  * AIAgent used to call tools
  */
 @Component
-public class AIAgent {
-
-    private ChatClient chatClient;
+public class ToolAIAgent extends AbstractAIAgent{
 
 
     /**
@@ -28,10 +25,10 @@ public class AIAgent {
      * @param cvMatcherTool
      * @param cvScoreTool
      */
-    private AIAgent(ChatClient.Builder builder, ChatMemory memory,
-                    CvMatcherTool cvMatcherTool,
-                    CvScoreTool cvScoreTool,
-                    CvStandardRequirementTool cvStandardRequirementTool) {
+    public ToolAIAgent(ChatClient.Builder builder, ChatMemory memory,
+                           CvMatcherTool cvMatcherTool,
+                           CvScoreTool cvScoreTool,
+                           CvStandardRequirementTool cvStandardRequirementTool) {
 
         this.chatClient = builder
                 .defaultSystem(AGENT_DEFAULT_SYSTEM_PROMPT) .defaultAdvisors(
@@ -41,17 +38,5 @@ public class AIAgent {
                 .build();
     }
 
-    /**
-     * make a call to the chatclient with a prompt and a query
-     * @param prompt the prompt used by the chat client
-     * @param query the query
-     * @return the prompt response
-     */
-    public String askAgent(String prompt, String query) {
-        return chatClient.prompt()
-                .user(prompt.formatted(query))
-                    .call()
-                    .content();
-    }
 }
 

@@ -57,4 +57,32 @@ public class Prompts {
             - Be consistent and deterministic in your decisions
         """
             ;
+
+
+    public static final String COMPUTE_SCORE_FOR_CATEGORIE =
+            """
+            You are an AI that evaluates CV content.
+    
+            Input data:
+            %s
+    
+            Task:
+            Evaluate the relevance and quality of the content .
+    
+            Scoring rules:
+            - Return a score between 0 and 1
+            - 0 = no relevant information
+            - 0.5 = partially relevant or incomplete
+            - 1 = highly relevant and complete
+    
+            Evaluation criteria:
+            - Presence of relevant keywords
+            - Level of detail
+            - Consistency with the category
+            - Clarity and structure
+    
+            Output format:
+            Return ONLY a decimal number between 0 and 1 (e.g., 0.0, 0.75, 1.0)
+            Do not add any explanation.
+            """;
 }

@@ -2,13 +2,12 @@ package org.cvanalyzer.backoffice.controller;
 
 import lombok.AllArgsConstructor;
 import org.cvanalyzer.backoffice.ai.prompt.Prompts;
-import org.cvanalyzer.backoffice.component.AIAgent;
+import org.cvanalyzer.backoffice.component.AIAgent.ToolAIAgent;
 import org.cvanalyzer.backoffice.component.CVAnalysisHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +22,7 @@ public class DocumentController {
     private final CVAnalysisHandler cvAnalysisHandler;
 
     @Autowired
-    private final AIAgent agent;
+    private final ToolAIAgent agent;
 
     @PostMapping(path = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<String> importFile(@RequestParam("file") MultipartFile file)

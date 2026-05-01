@@ -31,7 +31,7 @@ public class CvStandardRequirementTool {
     @Tool(name = "generateStandardEmbedding", description = "Generate the embedding for the standard skills")
     public String generateStandardEmbedding() throws JsonProcessingException {
         this.generateEmbeddingForLangages();
-return "ok";
+        return "ok";
     }
 
     private void generateEmbeddingForLangages() throws JsonProcessingException {
