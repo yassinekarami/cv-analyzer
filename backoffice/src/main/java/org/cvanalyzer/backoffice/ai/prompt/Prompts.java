@@ -16,6 +16,14 @@ public class Prompts {
         %s
     
         You must call the tool 'scoreComputeTool' before answering.
+        
+        Output format have to be exactly as the following without adding any text such as "Here are the ranked CVs based on the skills provided:"
+        [
+            {
+                "filename": "string",
+                "overallScore": "string"
+            }
+        ]
 
     """;
 

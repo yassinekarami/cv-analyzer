@@ -42,10 +42,10 @@ public class DocumentController {
     @GetMapping("/search/skills")
     public ResponseEntity<String> searchSkills(@RequestParam List<String> query) {
         String res = agent.askAgent(Prompts.SKILL_MATCH, query.toString());
-        return ResponseEntity.ok("received: " + query);
+        return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/init/embedding")
+    @PostMapping("/init/embedding")
     public ResponseEntity<String> initEmbedding() {
         String res = agent.askAgent(Prompts.INIT_STANDARD_SKILLS_EMBEDDING, "");
         return ResponseEntity.ok().build();
