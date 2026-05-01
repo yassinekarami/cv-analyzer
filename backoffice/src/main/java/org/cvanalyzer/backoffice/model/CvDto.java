@@ -9,7 +9,6 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
-@JsonDeserialize
 public record CvDto(
         Profile profile,
         List<Experience> experience,

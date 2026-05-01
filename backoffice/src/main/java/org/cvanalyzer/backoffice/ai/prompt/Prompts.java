@@ -19,6 +19,10 @@ public class Prompts {
 
     """;
 
+    public static final String INIT_STANDARD_SKILLS_EMBEDDING = """
+            Generate embedding for the company's standard requirement
+            """;
+
     public static final String AGENT_DEFAULT_SYSTEM_PROMPT =
             """
             You are an HR assistant specialized in CV matching and evaluation.
@@ -37,9 +41,14 @@ public class Prompts {
             If the user provides skills
             → You MUST call the tool `scoreComputeTool`.
         
+            ### 2. POPULATE DATABASE WITH STANDARD EMBEDDINGS
+            If the user ask for generating the embedding for standard requirements
+            → You MUST call the tool `generateStandardEmbedding`.
+        
             ## DECISION RULE
             - If the request is about SEARCHING candidates → use `findBySimilarity`
             - If the request is about RANKING skills → use `scoreComputeTool`
+            - If the reuest is about populating standardSkillsVectorStore → use `generateStandardEmbedding`
             - Never answer without calling a tool first
         
             ## BEHAVIOR

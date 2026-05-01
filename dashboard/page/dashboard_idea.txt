@@ -66,3 +66,6 @@ ton niveau (étudiant, dev, RH…)
 et l’outil que tu utilises (Power BI, Python, Excel, etc.)
 
 Je peux te proposer un exemple concret de dashboard ou maquette adapté à ton projet 👍
+
+
+A clean, modern horizontal bar chart showing CV evaluation results. The chart compares multiple filenames (e.g., CV_John_Doe.pdf, CV_Marie_Dupont.pdf, CV_Ahmed_Benali.pdf, CV_Lucas_Martin.pdf, CV_Sophie_Leroy.pdf) on the vertical axis, and their corresponding scores on the horizontal axis (0 to 100). Each bar is colored in a professional blue gradient, with the highest score slightly emphasized in a darker shade. Minimalist white background, subtle grid lines, clear axis labels (“Filename” and “Score”), and a title “CV Scoring Comparison”. Business dashboard style, very clean and readable.

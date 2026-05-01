@@ -2,6 +2,7 @@ package org.cvanalyzer.backoffice.component;
 
 import org.cvanalyzer.backoffice.ai.tools.CvMatcherTool;
 import org.cvanalyzer.backoffice.ai.tools.CvScoreTool;
+import org.cvanalyzer.backoffice.ai.tools.CvStandardRequirementTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -27,13 +28,16 @@ public class AIAgent {
      * @param cvMatcherTool
      * @param cvScoreTool
      */
-    private AIAgent(ChatClient.Builder builder, ChatMemory memory, CvMatcherTool cvMatcherTool, CvScoreTool cvScoreTool) {
+    private AIAgent(ChatClient.Builder builder, ChatMemory memory,
+                    CvMatcherTool cvMatcherTool,
+                    CvScoreTool cvScoreTool,
+                    CvStandardRequirementTool cvStandardRequirementTool) {
 
         this.chatClient = builder
                 .defaultSystem(AGENT_DEFAULT_SYSTEM_PROMPT) .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(memory).build()
                 )
-                .defaultTools(ToolCallbacks.from(cvMatcherTool, cvScoreTool))
+                .defaultTools(ToolCallbacks.from(cvMatcherTool, cvScoreTool, cvStandardRequirementTool))
                 .build();
     }
 

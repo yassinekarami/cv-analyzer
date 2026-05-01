@@ -116,14 +116,12 @@ CONSTRAINTS:
 Now generate the JSON resume.
 """ + text)
                 .call()
-           //     .entity(CvDto.class);
                .chatResponse();
 
 
        String message = chatResponse.getResult().getOutput().getText();
        CvDto cv = objectMapper.readValue(message, CvDto.class);
-       // pgVectorStore.add( chatResponse.getResult().getOutput());
-        pgVectorStore.add(convertCvDtoToDocument(cv, filename));
+       pgVectorStore.add(convertCvDtoToDocument(cv, filename));
     }
 
     private List<Document> convertCvDtoToDocument(CvDto cvDto, String filename) throws JsonProcessingException {

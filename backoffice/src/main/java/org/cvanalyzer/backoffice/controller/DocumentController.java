@@ -45,4 +45,10 @@ public class DocumentController {
         String res = agent.askAgent(Prompts.SKILL_MATCH, query.toString());
         return ResponseEntity.ok("received: " + query);
     }
+
+    @GetMapping("/init/embedding")
+    public ResponseEntity<String> initEmbedding() {
+        String res = agent.askAgent(Prompts.INIT_STANDARD_SKILLS_EMBEDDING, "");
+        return ResponseEntity.ok().build();
+    }
 }

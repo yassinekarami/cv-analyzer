@@ -6,26 +6,32 @@ import org.cvanalyzer.backoffice.utils.CvAnalyzerUtils;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * a springAi tool used to perform similarity search in vectore database
  */
 @Component
-@AllArgsConstructor
+
 public class CvMatcherTool {
 
     /**
      * service for querying  the vector store
      */
-    @Autowired
     private final VectorStoreService pgVectorStore;
+
+    /**
+     * Constructor for pgVectorStore
+     * @param pgVectorStore pgVectorStore service
+     */
+    public CvMatcherTool(@Qualifier("PGVectorStoreServiceImpl") VectorStoreService pgVectorStore) {
+        this.pgVectorStore = pgVectorStore;
+    }
 
     /**
      * Tool for performing a similarity search in vector store with the given query
