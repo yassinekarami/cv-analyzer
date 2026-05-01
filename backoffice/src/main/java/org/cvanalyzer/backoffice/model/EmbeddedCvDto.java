@@ -20,17 +20,4 @@ public class EmbeddedCvDto {
     private String metadata;
 
     private String embedding;
-
-
-    /**
-     * Constructor for EmbeddedCv
-     * @param filename the embedded filename
-     * @param metadata the embeddedCv metadata
-     * @param content the embeddedCv content
-     */
-    public EmbeddedCvDto(String filename, String metadata, String content) {
-        this.filename = filename;
-        this.metadata = metadata;
-        this.content = content;
-    }
 }

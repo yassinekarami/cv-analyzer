@@ -11,21 +11,27 @@ public class Prompts {
     """;
 
     public static final String SKILL_MATCH = """
-        Rank CV using the following skills:
-    
+        You are a CV ranking engine.
+
+        Return ONLY valid JSON.
+
+        Input skills:
         %s
-    
-        You must call the tool 'scoreComputeTool' before answering.
-        
-        Output format have to be exactly as the following without adding any text such as "Here are the ranked CVs based on the skills provided:"
+
+        Output format:
         [
-            {
-                "filename": "string",
-                "overallScore": "string"
-            }
+          {
+            "filename": "string",
+            "overallScore": number
+          }
         ]
 
-    """;
+        Rules:
+        - no explanation
+        - no markdown
+        - no numbering
+        - JSON only
+        """;
 
     public static final String INIT_STANDARD_SKILLS_EMBEDDING = """
             Generate embedding for the company's standard requirement

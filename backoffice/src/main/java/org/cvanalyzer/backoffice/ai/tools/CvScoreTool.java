@@ -2,6 +2,7 @@ package org.cvanalyzer.backoffice.ai.tools;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cvanalyzer.backoffice.ai.prompt.Prompts;
 import org.cvanalyzer.backoffice.component.AIAgent.ChatAIAgent;
@@ -66,7 +67,7 @@ public class CvScoreTool {
             name = "scoreComputeTool",
             description = "Rank CV according to the skills in the query"
     )
-    public String scoreCompute(String query) throws JsonProcessingException {
+    public List<CvScoreResponseDto> scoreCompute(String query) throws JsonProcessingException {
 
         List<Document> results = pgVectorStore.findDocumentBySimilarityAndMetadata(query,
                 new Filter.Expression(Filter.ExpressionType.EQ,
@@ -75,12 +76,12 @@ public class CvScoreTool {
                 10);
 
         if (CollectionUtils.isEmpty(results)) {
-            return "";
+            return new ArrayList<>();
         } else {
             Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
             List<String> filesname = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-            List<CvScoreResponseDto> scores = retrieveCvDetailsFromFilename(filesname);
-            return objectMapper.writeValueAsString(scores);
+            return retrieveCvDetailsFromFilename(filesname);
+
         }
 
     }
@@ -137,7 +138,7 @@ public class CvScoreTool {
     private CvCategorieScoreDto computeScoreForCategorie(String filename, CategoriesEnum categorie, String data) {
         String score = "0";
         if (!"[]".equals(data))
-            score = aiAgent.askAgent(Prompts.COMPUTE_SCORE_FOR_CATEGORIE, data);
+            score = aiAgent.askAgent(Prompts.COMPUTE_SCORE_FOR_CATEGORIE, data, new TypeReference<String>() {});
 
         return buildCategorie(filename, score, categorie);
     }

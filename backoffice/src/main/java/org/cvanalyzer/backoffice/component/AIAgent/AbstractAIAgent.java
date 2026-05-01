@@ -1,6 +1,7 @@
 package org.cvanalyzer.backoffice.component.AIAgent;
 
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
 
 /**
@@ -20,10 +21,18 @@ public abstract  class AbstractAIAgent {
      * @param query the query
      * @return the prompt response
      */
-    public String askAgent(String prompt, String query) {
-        return chatClient.prompt()
+    public <T> T askAgent(String prompt, String query, TypeReference<T> typeRef) {
+        String response = chatClient.prompt()
                 .user(prompt.formatted(query))
                 .call()
                 .content();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue(response, typeRef);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid JSON from LLM", e);
+        }
     }
 }
