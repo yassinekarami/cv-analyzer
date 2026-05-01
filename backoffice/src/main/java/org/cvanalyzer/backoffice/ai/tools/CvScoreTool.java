@@ -15,6 +15,7 @@ import org.springframework.ai.vectorstore.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -64,10 +65,15 @@ public class CvScoreTool {
                         new Filter.Value("skills")),
                 10);
 
-        Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
-        List<String> filesname = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-        retrieveCvDetailsFromFilename(filesname);
-        return "OK";
+        if (CollectionUtils.isEmpty(results)) {
+            return "noMatching CV";
+        } else {
+            Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
+            List<String> filesname = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
+            retrieveCvDetailsFromFilename(filesname);
+            return "OK";
+        }
+
     }
 
     private void retrieveCvDetailsFromFilename(List<String> filesname) throws JsonProcessingException {

@@ -31,4 +31,17 @@ public class VectorStoreConfiguration {
                 .maxDocumentBatchSize(Integer.parseInt(maxDistanceBatchSize))
                 .build();
     }
+
+    @Bean("vector_store")
+    public PgVectorStore vectorStore(JdbcTemplate jdbcTemplate, EmbeddingModel embeddingModel) {
+        return PgVectorStore.builder(jdbcTemplate, embeddingModel)
+                .schemaName("public")
+                .vectorTableName("vector_store")
+                .distanceType(PgVectorStore.PgDistanceType.valueOf(distanceType))
+                .removeExistingVectorStoreTable(true)
+                .initializeSchema(true)
+                .indexType(PgVectorStore.PgIndexType.valueOf(indexType))
+                .maxDocumentBatchSize(Integer.parseInt(maxDistanceBatchSize))
+                .build();
+    }
 }

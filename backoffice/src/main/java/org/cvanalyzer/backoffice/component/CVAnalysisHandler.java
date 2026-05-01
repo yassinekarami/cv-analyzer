@@ -33,7 +33,7 @@ public class CVAnalysisHandler {
      */
     private final StorageService storageService;
 
-    public CVAnalysisHandler(@Qualifier("PGVectorStoreSe rviceImpl") VectorStoreService vectorStoreService, DocumentService documentService, StorageService storageService) {
+    public CVAnalysisHandler(@Qualifier("PGVectorStoreServiceImpl") VectorStoreService vectorStoreService, DocumentService documentService, StorageService storageService) {
         this.vectorStoreService = vectorStoreService;
         this.documentService = documentService;
         this.storageService = storageService;

@@ -3,6 +3,8 @@ package org.cvanalyzer.backoffice.utils;
 import lombok.Getter;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public enum CategoriesEnum {
@@ -32,6 +34,7 @@ public enum CategoriesEnum {
      * @param value the value
      */
     CategoriesEnum(String value) {
+        this.value = value;
     }
 
     /**
@@ -46,5 +49,13 @@ public enum CategoriesEnum {
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("Value '%s' not found in CategoriesEnum", categorie)
                 ));
+    }
+
+    /**
+     * return all values of the enum
+     * @return the values of the enums
+     */
+    public static List<String> getAllValues() {
+        return Arrays.stream(CategoriesEnum.values()).map(CategoriesEnum::getValue).toList();
     }
 }

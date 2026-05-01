@@ -12,6 +12,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.filter.Filter;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,19 +20,34 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
 public class PGVectorStoreServiceImpl implements VectorStoreService {
 
     /**
      * pgVectoreStore
      */
-    @Autowired
     private final PgVectorStore pgVectorStore;
 
-    @Autowired
+    /**
+     * chat client
+     */
     private final ChatClient chatClient;
 
+    /**
+     * object mapper
+     */
     private final ObjectMapper objectMapper;
+
+    /**
+     * constructor
+     * @param pgVectorStore pgvectoreStore
+     * @param chatClient chatClient
+     * @param ojectMapper objectMapper
+     */
+    public PGVectorStoreServiceImpl(@Qualifier("vector_store") PgVectorStore pgVectorStore, ChatClient chatClient, ObjectMapper ojectMapper) {
+        this.pgVectorStore = pgVectorStore;
+        this.chatClient = chatClient;
+        this.objectMapper = ojectMapper;
+    }
 
     /**
      * {@inheritDoc}
