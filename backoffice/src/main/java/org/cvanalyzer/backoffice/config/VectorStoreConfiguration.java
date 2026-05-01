@@ -10,13 +10,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class VectorStoreConfiguration {
 
-    @Value("${spring.ai.vectorestore.pgvector.distance-type}")
+    @Value("${spring.ai.vectorstore.pgvector.distance-type}")
     public String distanceType;
 
-    @Value("${spring.ai.vectorestore.pgvector.max-document-batch-size}")
+    @Value("${spring.ai.vectorstore.pgvector.max-document-batch-size}")
     public String maxDistanceBatchSize;
 
-    @Value("${spring.ai.vectorestore.pgvector.index-type}")
+    @Value("${spring.ai.vectorstore.pgvector.index-type}")
     public String indexType;
 
     @Bean("standardSkillsVectorStore")

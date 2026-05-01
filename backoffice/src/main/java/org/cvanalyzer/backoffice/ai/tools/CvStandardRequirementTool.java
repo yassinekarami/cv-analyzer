@@ -20,7 +20,7 @@ public class CvStandardRequirementTool {
 
     private final VectorStoreService pgVectorStore;
 
-    public CvStandardRequirementTool(@Qualifier("StandardSkillsPgVectoreStoreServiceImpl") VectorStoreService pgVectorStore) {
+    public CvStandardRequirementTool(@Qualifier("standardSkillsPgVectoreStoreServiceImpl") VectorStoreService pgVectorStore) {
         this.pgVectorStore = pgVectorStore;
     }
 

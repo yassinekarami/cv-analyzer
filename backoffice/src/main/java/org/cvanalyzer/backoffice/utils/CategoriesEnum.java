@@ -39,8 +39,8 @@ public enum CategoriesEnum {
      * @param categorie the value to retrieve
      * @return the string vale
      */
-    public String fromValue(String categorie) {
-        Arrays.stream(CategoriesEnum.values())
+    public CategoriesEnum fromValue(String categorie) {
+        return Arrays.stream(CategoriesEnum.values())
                 .filter(c -> c.getValue().equalsIgnoreCase(categorie))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(

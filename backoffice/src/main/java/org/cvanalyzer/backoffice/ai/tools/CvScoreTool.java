@@ -4,6 +4,7 @@ package org.cvanalyzer.backoffice.ai.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.cvanalyzer.backoffice.model.*;
 import org.cvanalyzer.backoffice.repository.CvMapper;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
@@ -12,6 +13,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.vectorstore.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -22,25 +24,33 @@ import static org.cvanalyzer.backoffice.utils.CategoriesEnum.*;
  * a springAi tool used to give a score to a given CV
  */
 @Component
-@AllArgsConstructor
 public class CvScoreTool {
 
     /**
      * service for querying  the vector store
      */
-    @Autowired
     private final VectorStoreService pgVectorStore;
 
     /**
      * Object mapper for converting json to object and object to json
      */
-    @Autowired
     private final ObjectMapper objectMapper;
     /**
      * Cv repository
      */
-    @Autowired
     private final CvMapper cvRepository;
+
+    /**
+     * constructor
+     * @param pgVectorStore pgVectorStore
+     * @param objectMapper objectMapper
+     * @param cvRepository cvRepository
+     */
+    public CvScoreTool(@Qualifier("PGVectorStoreServiceImpl") VectorStoreService pgVectorStore, ObjectMapper objectMapper, CvMapper cvRepository) {
+        this.pgVectorStore = pgVectorStore;
+        this.objectMapper = objectMapper;
+        this.cvRepository = cvRepository;
+    }
 
     @Tool(
             name = "scoreComputeTool",

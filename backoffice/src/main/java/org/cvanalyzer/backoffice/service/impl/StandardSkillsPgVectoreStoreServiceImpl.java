@@ -29,6 +29,7 @@ public class StandardSkillsPgVectoreStoreServiceImpl implements VectorStoreServi
     public StandardSkillsPgVectoreStoreServiceImpl(@Qualifier("standardSkillsVectorStore")PgVectorStore vectorStore) {
         this.pgVectorStore = vectorStore;
     }
+
     @Override
     public void insertIntoVectorStore(String text, String name) {
 

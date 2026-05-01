@@ -8,6 +8,7 @@ import org.cvanalyzer.backoffice.service.StorageService;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,23 +18,26 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@AllArgsConstructor
 public class CVAnalysisHandler {
 
     /**
      * vectorStore service to interact with the vectorStore
      */
-    @Autowired
-    private VectorStoreService vectorStoreService;
-
+    private final VectorStoreService vectorStoreService;
     /**
      * documentService used to extract text from file
      */
-    @Autowired
-    private DocumentService documentService;
+    private final DocumentService documentService;
+    /**
+     * storageService used to store files
+     */
+    private final StorageService storageService;
 
-    @Autowired
-    private StorageService storageService;
+    public CVAnalysisHandler(@Qualifier("PGVectorStoreSe rviceImpl") VectorStoreService vectorStoreService, DocumentService documentService, StorageService storageService) {
+        this.vectorStoreService = vectorStoreService;
+        this.documentService = documentService;
+        this.storageService = storageService;
+    }
 
     public String handleFileImport(MultipartFile file) throws IOException {
         String result = documentService.extractContentFromFile(file);
