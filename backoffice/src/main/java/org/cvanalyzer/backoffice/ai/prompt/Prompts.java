@@ -99,4 +99,85 @@ public class Prompts {
             Return ONLY a decimal number between 0 and 1 (e.g., 0.0, 0.75, 1.0)
             Do not add any explanation.
             """;
+
+    public static final String CONVERT_CV_DATA_INTO_JSON = """
+
+            You are a JSON generator.
+            
+            Your task is to generate a structured JSON resume that strictly matches the following schema.
+            
+            RULES (MANDATORY):
+            - Output ONLY valid JSON. No explanations, no markdown, no comments.
+            - The JSON must be directly parsable by Jackson into a Java DTO.
+            - All field names must match exactly (case-sensitive).
+            - If a value is unknown or missing, use null.
+            - Do not omit any fields.
+            - Do not add extra fields.
+            - Use empty arrays [] instead of null for lists when no data is available.
+            - Use null only for scalar fields (String, Map values, etc.) when unknown.
+            - Ensure valid JSON syntax (quotes, commas, brackets).
+            
+            SCHEMA:
+            {
+              "profile": {
+                "name": String|null,
+                "email": String|null,
+                "nationality": String|null,
+                "links": [String],
+                "title": String|null,
+                "languages": { "String": "String" }
+              },
+              "experience": [
+                {
+                  "role": String|null,
+                  "dates": String|null,
+                  "company": String|null,
+                  "location": String|null,
+                  "description": String|null
+                }
+              ],
+              "education": [
+                {
+                  "degree": String|null,
+                  "school": String|null,
+                  "year": String|null
+                }
+              ],
+              "skills": [String],
+              "publications": [
+                {
+                  "title": String|null,
+                  "publisher": String|null
+                }
+              ],
+              "talks": [
+                {
+                  "title": String|null,
+                  "event": String|null,
+                  "location": String|null,
+                  "date": String|null
+                }
+              ],
+              "certifications": [
+                {
+                  "title": String|null,
+                  "description": String|null
+                }
+              ],
+              "other": [Object]
+            }
+            
+            CONSTRAINTS:
+            - "languages" must always be an object (use {} if empty).
+            - Arrays must always be present (never null).
+            - Strings must be valid JSON strings.
+            - Keep realistic but concise content.
+            
+            Rules:
+            - no explanation
+            - no markdown
+            - no numbering
+            -JSON only
+            Now generate the JSON resume.
+            """;
 }

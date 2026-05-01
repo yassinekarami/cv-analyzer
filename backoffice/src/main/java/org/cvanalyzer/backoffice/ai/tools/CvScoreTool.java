@@ -8,6 +8,7 @@ import org.cvanalyzer.backoffice.ai.prompt.Prompts;
 import org.cvanalyzer.backoffice.component.AIAgent.ChatAIAgent;
 import org.cvanalyzer.backoffice.model.*;
 import org.cvanalyzer.backoffice.repository.CvMapper;
+import org.cvanalyzer.backoffice.service.CvScoreService;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
 import org.cvanalyzer.backoffice.utils.CategoriesEnum;
 import org.cvanalyzer.backoffice.utils.CvAnalyzerUtils;
@@ -34,33 +35,26 @@ public class CvScoreTool {
     private final VectorStoreService pgVectorStore;
 
     /**
-     * Object mapper for converting json to object and object to json
-     */
-    private final ObjectMapper objectMapper;
-    /**
      * Cv repository
      */
     private final CvMapper cvRepository;
 
     /**
-     * ai agent responsible of interaction with the chat client
+     * Cv score service
      */
-    private final ChatAIAgent aiAgent;
+    private final CvScoreService cvScoreService;
 
     /**
      * constructor
      * @param pgVectorStore pgVectorStore
-     * @param objectMapper objectMapper
      * @param cvRepository cvRepository
      */
     public CvScoreTool(@Qualifier("PGVectorStoreServiceImpl") VectorStoreService pgVectorStore,
-                       ObjectMapper objectMapper,
                        CvMapper cvRepository,
-                       ChatAIAgent aiAgent) {
+                       CvScoreService cvScoreService) {
         this.pgVectorStore = pgVectorStore;
-        this.objectMapper = objectMapper;
         this.cvRepository = cvRepository;
-        this.aiAgent = aiAgent;
+        this.cvScoreService = cvScoreService;
     }
 
     @Tool(
@@ -98,79 +92,9 @@ public class CvScoreTool {
         }
 
         for (Map.Entry<String, List<EmbeddedCvDto>> entry : fileNameEmbeddingMap.entrySet()) {
-            response.add(calculateCvScore(entry.getValue()));
+            response.add(cvScoreService.calculateCvScore(entry.getValue()));
 
         }
         return response;
-    }
-
-    private CvScoreResponseDto calculateCvScore(List<EmbeddedCvDto> embeddedCvDtos) throws JsonProcessingException {
-        List<CvCategorieScoreDto> categorieScoreDtos = new ArrayList<>();
-        for(EmbeddedCvDto embeddedCvDto: embeddedCvDtos) {
-
-            CvMetadataDto metadata = objectMapper.readValue(embeddedCvDto.getMetadata(), CvMetadataDto.class);
-            switch (CategoriesEnum.fromValue(metadata.getCategorie())) {
-                case EXPERIENCE -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), EXPERIENCE, embeddedCvDto.getContent()));
-                case SKILLS -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), SKILLS, embeddedCvDto.getContent()));
-                case PUBLICATIONS -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), PUBLICATIONS, embeddedCvDto.getContent())) ;
-                case TALKS -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), TALKS, embeddedCvDto.getContent()));
-                case CERTIFICATIONS -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), CERTIFICATIONS, embeddedCvDto.getContent()));
-                case OTHER -> categorieScoreDtos.add(computeScoreForCategorie(metadata.getFilename(), OTHER, embeddedCvDto.getContent()));
-            }
-        }
-
-        return buildScoreReponse(embeddedCvDtos.getFirst().getFilename(), categorieScoreDtos);
-    }
-
-
-    /**
-     * Computes a {@link CvCategorieScoreDto} for a given category based on the provided data.
-     * <p>
-     * If the input data is an empty JSON array (i.e. "[]"), the method returns a DTO
-     * with a score of "0" for the given filename and category.
-     * </p>
-     *
-     * @param filename   the name of the file associated with the score (must not be null)
-     * @param categorie  the category for which the score is computed (must not be null)
-     * @param data       the raw data used to compute the score (expected as a JSON string)
-     * @return a {@link CvCategorieScoreDto} containing the filename, category, and computed score
-     */
-    private CvCategorieScoreDto computeScoreForCategorie(String filename, CategoriesEnum categorie, String data) {
-        String score = "0";
-        if (!"[]".equals(data))
-            score = aiAgent.askAgent(Prompts.COMPUTE_SCORE_FOR_CATEGORIE, data, new TypeReference<String>() {});
-
-        return buildCategorie(filename, score, categorie);
-    }
-
-
-    /**
-     * build a CvCategorieScore
-     * @param filename the filename which belong the categorie
-     * @param score the computed categorie score
-     * @param categorie the categorie being evaluated
-     * @return a newly created CvCategorieScore
-     */
-    private CvCategorieScoreDto buildCategorie(String filename, String score, CategoriesEnum categorie) {
-        Float finalScore = Float.parseFloat(score) * Float.parseFloat(categorie.getCoefficient());
-        return CvCategorieScoreDto.builder()
-                .filename(filename)
-                .score(String.valueOf(finalScore))
-                .categorie(categorie.getValue()).build();
-    }
-
-    /**
-     * Build a CvScoreResponse
-     * @param filename the cv filename
-     * @param sections list of section used to calculate the cv overallScore
-     */
-    private CvScoreResponseDto buildScoreReponse(String filename, List<CvCategorieScoreDto> sections) {
-        String overallScore = String.valueOf(sections.stream()
-                .map(section -> Float.valueOf(section.getScore()))
-                .reduce(0.0F, Float::sum));
-
-        return CvScoreResponseDto.builder()
-                .filename(filename)
-                .overallScore(overallScore).build();
     }
 }
