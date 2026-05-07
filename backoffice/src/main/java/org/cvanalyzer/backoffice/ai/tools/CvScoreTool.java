@@ -2,15 +2,10 @@ package org.cvanalyzer.backoffice.ai.tools;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cvanalyzer.backoffice.ai.prompt.Prompts;
-import org.cvanalyzer.backoffice.component.AIAgent.ChatAIAgent;
 import org.cvanalyzer.backoffice.model.*;
 import org.cvanalyzer.backoffice.repository.CvMapper;
 import org.cvanalyzer.backoffice.service.CvScoreService;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
-import org.cvanalyzer.backoffice.utils.CategoriesEnum;
 import org.cvanalyzer.backoffice.utils.CvAnalyzerUtils;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
@@ -20,8 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-
-import static org.cvanalyzer.backoffice.utils.CategoriesEnum.*;
 
 /**
  * a springAi tool used to give a score to a given CV

@@ -3,18 +3,14 @@ package org.cvanalyzer.backoffice.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.cvanalyzer.backoffice.ai.prompt.Prompts;
 import org.cvanalyzer.backoffice.component.AIAgent.ChatAIAgent;
 import org.cvanalyzer.backoffice.model.CvDto;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.filter.Filter;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

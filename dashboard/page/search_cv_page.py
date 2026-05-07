@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.title("Search for profile")
+st.title("Search for profile aaaaaaaaa")
 
 # Init history
 if "messages" not in st.session_state:

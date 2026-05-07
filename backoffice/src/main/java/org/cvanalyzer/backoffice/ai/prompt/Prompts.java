@@ -8,6 +8,12 @@ public class Prompts {
         %s
 
         You must call the tool 'findBySimilarity' before answering.
+        And also add some details about the CV
+        The output format must be a json with the format
+        {
+            "filename": "string",
+            "details": "string"
+        }
     """;
 
     public static final String SKILL_MATCH = """

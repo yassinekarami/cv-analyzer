@@ -25,7 +25,7 @@ if submit:
             "file": (file_to_upload.name, BytesIO(bytes_data), "application/pdf")
         }
 
-        response = requests.post("http://localhost:8080/upload", files=files)
+        response = requests.post("http://backoffice:8080/upload", files=files)
 
         if response.status_code == 200:
             st.success("Uploaded file")

@@ -1,11 +1,9 @@
 package org.cvanalyzer.backoffice.ai.tools;
 
-import lombok.AllArgsConstructor;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
 import org.cvanalyzer.backoffice.utils.CvAnalyzerUtils;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +42,6 @@ public class CvMatcherTool {
 
         Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
         List<String> filesName = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-       // storageService.loadAsResources(filesName);
         return filesName.toString();
 
     }

@@ -1,13 +1,18 @@
 services:
 
-#  backoffice:
-#    build: ./backoffice
-#    ports:
-#      - "8080:8080"
-#    volumes:
-#      - ./backoffice:/backoffice
-#    networks:
-#      - backoffice
+  backoffice:
+    build: ./backoffice
+    ports:
+      - "8080:8080"
+    environment:
+      OPENAI_API_KEY: "YOUR API KEY"
+    volumes:
+      - ./backoffice:/backoffice
+    networks:
+      - backoffice
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   dashboard:
     build: ./dashboard
@@ -17,12 +22,11 @@ services:
       - ./dashboard:/app
     networks:
       - backoffice
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    depends_on:
+      - backoffice
 
   postgres:
     image: pgvector/pgvector:pg18-trixie
-
     ports:
       - "5432:5432"
     environment:
@@ -33,6 +37,11 @@ services:
       - pgdata:/var/lib/postgresql
     networks:
       - backoffice
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   adminer:
     image: adminer:latest
@@ -42,36 +51,11 @@ services:
     networks:
       - backoffice
     depends_on:
-      - postgres
-
-#  ollama:
-#    image: ollama/ollama:latest
-#    ports:
-#      - "11434:11434"
-#    volumes:
-#      - ollama_data:/root/.ollama
-#    restart: always
-#    networks:
-#      - backoffice
-
-
-#  ollama-init:
-#    image: curlimages/curl:latest
-#    depends_on:
-#      - ollama
-#    entrypoint: >
-#      sh -c "
-#      echo 'Waiting for Ollama...' &&
-#      sleep 5 &&
-#      curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"mistral\"}' &&
-#      curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"nomic-embed-text\"}'
-#      "
-#    networks:
-#      - backoffice
+      postgres:
+        condition: service_started
 
 volumes:
   pgdata:
-#  ollama_data:
 
 networks:
   backoffice:

@@ -1,11 +1,9 @@
 package org.cvanalyzer.backoffice.ai.tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.AllArgsConstructor;
 import org.cvanalyzer.backoffice.service.VectorStoreService;
 import org.cvanalyzer.backoffice.utils.LangagesEnum;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
