@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.title("Search for profile aaaaaaaaa")
+st.title("Search for profile")
 
 # Init history
 if "messages" not in st.session_state:
@@ -22,7 +22,7 @@ if prompt := st.chat_input("What is up?"):
 
     # Call backend
     try:
-        response = requests.get("http://localhost:8080/search", params={"query": prompt})
+        response = requests.get("http://backoffice:8080/search", params={"query": prompt})
 
         if response.status_code == 200:
             data = response.text

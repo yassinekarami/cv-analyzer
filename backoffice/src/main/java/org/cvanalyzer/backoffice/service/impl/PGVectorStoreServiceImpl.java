@@ -90,6 +90,7 @@ public class PGVectorStoreServiceImpl implements VectorStoreService {
     public List<Document> findDocumentBySimilarityAndMetadata(String query, Filter.Expression expression, int topK) {
         return this.pgVectorStore
                 .similaritySearch(SearchRequest.builder().query(query)
+                        .similarityThreshold(0.5)
                         .filterExpression(expression)
                         .topK(topK).build());
     }

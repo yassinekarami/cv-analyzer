@@ -8,7 +8,7 @@ search_form = st.form("search")
 
 options = search_form.multiselect(
     "Select the technologies your are looking for, or enter new options?",
-    ["Java", "Python", "devops", "bigdata", "cloud"],
+    ["Java", "Python", "android", "C++", "C", "TensorFlow", "cloud", "javascript"],
     max_selections=5
 )
 

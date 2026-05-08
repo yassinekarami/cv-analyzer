@@ -13,6 +13,7 @@ RUN mvn clean package -DskipTests
 # Stage 2: Run the application
 FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
+RUN mkdir -p ./upload-dir
 
 # Copy the JAR from the build stage
 COPY --from=build /backoffice/target/*.jar backoffice.jar
