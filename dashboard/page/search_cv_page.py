@@ -27,10 +27,10 @@ if prompt := st.chat_input("What is up?"):
         if response.status_code == 200:
             data = response.text
         else:
-            data = f"Erreur backend: {response.status_code}"
+            data = f"Backend error: {response.status_code}"
 
     except Exception as e:
-        data = f"Erreur connexion: {e}"
+        data = f"connection error: {e}"
 
     # Display assistant response
     with st.chat_message("assistant"):

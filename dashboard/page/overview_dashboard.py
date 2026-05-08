@@ -8,7 +8,7 @@ search_form = st.form("search")
 
 options = search_form.multiselect(
     "Select the technologies your are looking for, or enter new options?",
-    ["Java", "Python", "android", "C++", "C", "TensorFlow", "cloud", "javascript"],
+    ["Java", "Python", "android", "devops",  "TensorFlow", "cloud", "javascript"],
     max_selections=5
 )
 
@@ -31,9 +31,9 @@ if submit:
 
     df = df.sort_values("overallScore", ascending=False)
 
-    st.subheader("Résultats")
+    st.subheader("Results")
     st.dataframe(df)
 
-    st.subheader("Scores des CV")
+    st.subheader("Scores")
 
     st.bar_chart(df.set_index("filename"))
