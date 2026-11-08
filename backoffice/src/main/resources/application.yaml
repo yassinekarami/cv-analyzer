@@ -10,6 +10,13 @@ spring:
     password: admin
     driver-class-name: org.postgresql.Driver
   ai:
+    mcp:
+      client:
+        streamable-http:
+          connections:
+            cv-analyzr-mcp-server:
+              url: http://localhost:8082
+
     openai:
       api-key: ${OPENAI_API_KEY}
       chat:
@@ -33,6 +40,9 @@ file:
 
 logging:
   level:
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+
     org:
       springframework:
         ai: DEBUG
+

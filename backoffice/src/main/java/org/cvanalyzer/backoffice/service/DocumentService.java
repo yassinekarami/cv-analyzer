@@ -8,5 +8,5 @@ import java.io.IOException;
 @Service
 public interface DocumentService {
 
-    String extractContentFromFile(MultipartFile input) throws IOException;
+    String convertPdfIntoString(MultipartFile input) throws IOException;
 }

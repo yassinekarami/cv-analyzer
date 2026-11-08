@@ -1,0 +1,47 @@
+cv-analyzer/
+│
+├── backend/
+│   ├── api/
+│   ├── services/
+│   └── repositories/
+│
+├── mcp-server/
+│   │
+│   ├── src/
+│   │   ├── server.ts
+│   │   │
+│   │   ├── tools/
+│   │   │   ├── llm/
+│   │   │   │   ├── generate.tool.ts
+│   │   │   │   ├── summarize.tool.ts
+│   │   │   │   └── extract-entities.tool.ts
+│   │   │   │
+│   │   │   ├── vector/
+│   │   │   │   ├── store.tool.ts
+│   │   │   │   ├── search.tool.ts
+│   │   │   │   └── delete.tool.ts
+│   │   │   │
+│   │   │   ├── graph/
+│   │   │   │   ├── create-candidate.tool.ts
+│   │   │   │   ├── add-skill.tool.ts
+│   │   │   │   └── search.tool.ts
+│   │   │   │
+│   │   │   ├── memory/
+│   │   │   │   ├── save-message.tool.ts
+│   │   │   │   ├── get-context.tool.ts
+│   │   │   │   └── search-memory.tool.ts
+│   │   │   │
+│   │   │   └── rag/
+│   │   │       ├── hybrid-search.tool.ts
+│   │   │       └── build-context.tool.ts
+│   │   │
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── schemas/
+│   │   └── config/
+│   │
+│   └── package.json
+│
+├── frontend/
+│
+└── docker-compose.yml

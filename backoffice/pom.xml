@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>4.1.2</version>
+        <relativePath/>
     </parent>
 
     <groupId>org.cvanalyzer</groupId>
@@ -17,17 +17,16 @@
 
     <properties>
         <java.version>21</java.version>
+        <spring-ai.version>2.0.2</spring-ai.version>
     </properties>
 
-    <!-- ========================= -->
     <!-- SPRING AI BOM -->
-    <!-- ========================= -->
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
-                <version>1.0.0-M6</version>
+                <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -36,9 +35,7 @@
 
     <dependencies>
 
-        <!-- ========================= -->
-        <!-- SPRING BOOT CORE -->
-        <!-- ========================= -->
+        <!-- SPRING BOOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -59,45 +56,46 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
+        <!-- POSTGRESQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
+        <!-- MYBATIS -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
+            <version>4.0.0</version>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- SPRING AI -->
-        <!-- ========================= -->
+        <!-- SPRING AI OPENAI -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- DATABASE -->
-        <!-- ========================= -->
+        <!-- SPRING AI NEO4J CHAT MEMORY -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-chat-memory-repository-neo4j</artifactId>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- PDF PARSING (PDFBox) -->
-        <!-- ========================= -->
+        <!-- SPRING AI MCP CLIENT WEBFLUX -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-client-webflux</artifactId>
+        </dependency>
+
+        <!-- PDFBOX -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>3.0.2</version>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- OFFICE FILES (POI) -->
-        <!-- ========================= -->
+        <!-- APACHE POI -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -110,26 +108,20 @@
             <version>5.2.5</version>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- JSON -->
-        <!-- ========================= -->
+        <!-- JACKSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- ========================= -->
-        <!-- UTILITIES -->
-        <!-- ========================= -->
+        <!-- COMMONS LANG -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <version>3.18.0</version>
         </dependency>
 
-        <!-- ========================= -->
         <!-- LOMBOK -->
-        <!-- ========================= -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -137,19 +129,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- ========================= -->
         <!-- TEST -->
-        <!-- ========================= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
-            <version>1.1.4</version>
         </dependency>
 
     </dependencies>
@@ -162,5 +146,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

@@ -18,5 +18,5 @@ RUN mkdir -p ./upload-dir
 # Copy the JAR from the build stage
 COPY --from=build /backoffice/target/*.jar backoffice.jar
 
-EXPOSE 8080
+EXPOSE 8082
 ENTRYPOINT ["java", "-jar", "backoffice.jar"]

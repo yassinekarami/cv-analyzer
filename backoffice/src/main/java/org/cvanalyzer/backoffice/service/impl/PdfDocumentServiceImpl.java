@@ -14,12 +14,12 @@ public class PdfDocumentServiceImpl implements DocumentService {
 
 
     /**
-     * extract the content of a file as a string
+     * convert a pdf file into a string
      * @param file the file to upload
      * @return a string representing the content of the input
      * @throws IOException IOExeption
      */
-    public String extractContentFromFile(MultipartFile file)
+    public String convertPdfIntoString(MultipartFile file)
             throws IOException {
 
         PDDocument document = Loader.loadPDF(file.getBytes());

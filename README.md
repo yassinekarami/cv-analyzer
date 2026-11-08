@@ -59,6 +59,9 @@ Spring AI sends context + prompt + tools to LLM
 Output
 Returns structured JSON response
 
+
+https://chatgpt.com/s/t_6aed0d8c1f148191aa32e282c095b20d
+
 🧪 Example output
 <img width="720" height="305" alt="Capture d’écran du 2026-05-08 17-28-18" src="https://github.com/user-attachments/assets/832f5c5a-3d05-4829-bef8-d028d28ffa20" />
 
