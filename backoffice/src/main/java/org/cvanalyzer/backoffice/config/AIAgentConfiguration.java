@@ -38,7 +38,7 @@ public class AIAgentConfiguration {
      * @return a chat client with no memory
      */
     @Bean("noMemoryChatClient")
-    public ChatClient chatClient(OpenAiChatModel chatModel, SyncMcpToolCallbackProvider mcpToolProvider) {
+    public ChatClient noMemoryChatClient(OpenAiChatModel chatModel, SyncMcpToolCallbackProvider mcpToolProvider) {
         return ChatClient
                 .builder(chatModel)
                 .defaultTools(mcpToolProvider)
@@ -55,7 +55,7 @@ public class AIAgentConfiguration {
      * @return chatClient with memory
      */
     @Bean("memoryChatClient")
-    public ChatClient chatClient(OpenAiChatModel chatModel,
+    public ChatClient memoryChatClient(OpenAiChatModel chatModel,
                                  SyncMcpToolCallbackProvider mcpToolProvider,
                                  @Qualifier("neo4jchatmemory")ChatMemory memory) {
 

@@ -1,7 +1,7 @@
 //package org.cvanalyzer.MCPServer.tools;
 //
 //import org.cvanalyzer.MCPServer.service.AnalyseService;
-//import org.cvanalyzer.MCPServer.service.impl.CvAnalysisServiceImpl;
+//import org.cvanalyzer.MCPServer.service.impl.CvImportServiceImpl;
 //import org.cvanalyzer.MCPServer.utils.CvAnalyzerUtils;
 //import org.springframework.ai.document.Document;
 //import org.springframework.ai.mcp.annotation.McpTool;
@@ -22,13 +22,13 @@
 //    /**
 //     * service for querying  the vector store
 //     */
-//    private final CvAnalysisServiceImpl pgVectorStore;
+//    private final CvImportServiceImpl pgVectorStore;
 //
 //    /**
 //     * Constructor for pgVectorStore
 //     * @param pgVectorStore pgVectorStore service
 //     */
-//    public CvMatcherTool(@Qualifier("PGVectorStoreServiceImpl") CvAnalysisServiceImpl pgVectorStore) {
+//    public CvMatcherTool(@Qualifier("PGVectorStoreServiceImpl") CvImportServiceImpl pgVectorStore) {
 //        this.pgVectorStore = pgVectorStore;
 //    }
 //

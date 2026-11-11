@@ -65,9 +65,11 @@ public class CvMcpTool {
      * @param query the query to use for similarity search
      * @return the filename of the similar document
      */
-    @McpTool(name = "findBySimilarity", description = "Search CVs using similarity")
-    public McpSchema.CallToolResult findBySimilarity(@McpToolParam(description = "the query for similarity search") String query) {
+    @McpTool(name = "findBySimilarity",
+            description = "Find the most relevant CV based on the criteria passed in parameters.")
+    public McpSchema.CallToolResult findBySimilarity(@McpToolParam(description = "the criteria to evaluate the cv") String query) {
 
+        log.info("Search the cv matching the following parameters {}", query);
         String result = cvAnalysisService.findSimilarCv(query);
         return McpSchema.CallToolResult.builder().structuredContent(result).isError(false).build();
 

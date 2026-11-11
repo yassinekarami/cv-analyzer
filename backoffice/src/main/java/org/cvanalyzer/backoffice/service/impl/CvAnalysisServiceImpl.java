@@ -1,70 +1,42 @@
 package org.cvanalyzer.backoffice.service.impl;
 
-
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.cvanalyzer.backoffice.utils.Prompts;
+import org.cvanalyzer.backoffice.model.CvMatcherDto;
 import org.cvanalyzer.backoffice.service.CvAnalysisService;
-import org.cvanalyzer.backoffice.service.DocumentService;
-import org.cvanalyzer.backoffice.service.StorageService;
+import org.cvanalyzer.backoffice.utils.Prompts;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.document.Document;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
-
 public class CvAnalysisServiceImpl implements CvAnalysisService {
 
     /**
-     * documentService used to extract text from file
+     * the conversation uuid
      */
-    private DocumentService documentService;
-    /**
-     * storageService used to store files
-     */
-    private StorageService storageService;
+    UUID uuid = UUID.randomUUID();
     /**
      * chat client being used to prompt
      */
-    private ChatClient chatClient;
+    private final ChatClient chatClient;
 
-    /**
-     * Constructor for CvAnalysisServiceImpl
-     * @param documentService
-     * @param storageService
-     * @param chatClient
-     */
-    public CvAnalysisServiceImpl(DocumentService documentService,
-                                 StorageService storageService,
-                                 @Qualifier("noMemoryChatClient") ChatClient chatClient) {
-        this.documentService = documentService;
-        this.storageService = storageService;
+    public CvAnalysisServiceImpl(@Qualifier("memoryChatClient") ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
-    public String handleFileImport(MultipartFile file) throws IOException {
-        try {
-            String result = documentService.convertPdfIntoString(file);
-            Document doc = new Document(result);
-            storageService.store(file);
+    @Override
+    public CvMatcherDto searchCvBasedOnCriteria(String criteria) {
 
+        chatClient.prompt()
+                .user(Prompts.CV_MATCH.formatted(criteria))
+                .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, uuid.toString()))
+                .call()
+                .content();
 
-            chatClient.prompt()
-                    .user(Prompts.EXTRACT_USEFUL_DATA_FROM_STRING.formatted(result))
-                    .call()
-                    .content();
-
-
-        }
-        catch (IOException e) {
-
-        }
-        return "OK";
+        return null;
     }
 }

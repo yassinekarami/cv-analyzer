@@ -3,21 +3,11 @@ package org.cvanalyzer.backoffice.utils;
 public class Prompts {
 
     public static final String EXTRACT_USEFUL_DATA_FROM_STRING = """
-            Extract useful information from this candidate profile: %s
+            Extract useful information from this candidate profile: %s the filename is %s
             """;
 
     public static final String CV_MATCH = """
-        Find the best matching CV for the following request:
-
-        %s
-
-        You must call the tool 'findBySimilarity' before answering.
-        And also add some details about the CV
-        The output format must be a json with the format
-        {
-            "filename": "string",
-            "details": "string"
-        }
+        Find the best matching CV for the following request: %s
     """;
 
     public static final String SKILL_MATCH = """

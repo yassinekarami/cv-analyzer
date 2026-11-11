@@ -2,8 +2,9 @@ package org.cvanalyzer.backoffice.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.cvanalyzer.backoffice.service.CvAnalysisService;
+import org.cvanalyzer.backoffice.model.CvMatcherDto;
 import org.cvanalyzer.backoffice.service.impl.CvAnalysisServiceImpl;
+import org.cvanalyzer.backoffice.service.impl.CvImportServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +21,38 @@ import java.io.IOException;
 public class DocumentController {
 
 
-    private final CvAnalysisServiceImpl cvAnalysisHandler;
+    private final CvImportServiceImpl cvImportService;
+
+    private final CvAnalysisServiceImpl cvAnalysisService;
 
 
+    /**
+     * controller for uploading a cv
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> importFile(@RequestParam("file") MultipartFile file)
             throws IOException {
 
         log.info("upload CV");
-        String res = cvAnalysisHandler.handleFileImport(file);
+        String res = cvImportService.handleFileImport(file);
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<CvMatcherDto> searchCv(@RequestParam String query) {
-//        log.info("search for CV with the query {}", query);
-//        CvMatcherDto res = agent.askAgent(Prompts.CV_MATCH,query, new TypeReference<CvMatcherDto>() {});
-//        return ResponseEntity.ok().body(res);
-//    }
+    /**
+     * search for a cv based on criteria
+     * @param criteria the criteria
+     * @return
+     */
+    @GetMapping("/search")
+    public ResponseEntity<CvMatcherDto> searchCvBasedOnCriteria(@RequestParam String criteria) {
+        log.info("search for CV with the criteria {}", criteria);
+
+        CvMatcherDto res = cvAnalysisService.searchCvBasedOnCriteria(criteria);
+        return ResponseEntity.ok().body(res);
+    }
 //
 //    @GetMapping("/search/skills")
 //    public ResponseEntity<List<CvScoreResponseDto>> searchSkills(@RequestParam("query") List<String> query) {
