@@ -38,7 +38,7 @@ public class VectorStoreConfiguration {
     public PgVectorStore vectorStore(JdbcTemplate jdbcTemplate, EmbeddingModel embeddingModel) {
         return PgVectorStore.builder(jdbcTemplate, embeddingModel)
                 .schemaName("public")
-                .vectorTableName("ImportedCvVS")
+                .vectorTableName("importedcvvs")
                 .distanceType(PgVectorStore.PgDistanceType.valueOf(distanceType))
                 .removeExistingVectorStoreTable(false)
                 .initializeSchema(true)

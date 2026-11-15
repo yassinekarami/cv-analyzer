@@ -1,8 +1,10 @@
 package org.cvanalyzer.backoffice;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages = {"org.cvanalyzer", "org.cvanalyzer.backoffice.service.impl"})
 public class BackofficeApplication {
 

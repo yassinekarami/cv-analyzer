@@ -55,7 +55,7 @@ public class StandardSkillsPgVectoreStoreServiceImpl implements AnalyseService {
     }
 
     @Override
-    public String findSimilarCv(String query) {
-        return "";
+    public List<String> findSimilarCv(String query) {
+        return List.of();
     }
 }

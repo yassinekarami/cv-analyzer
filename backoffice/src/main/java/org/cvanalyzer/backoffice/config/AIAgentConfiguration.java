@@ -12,11 +12,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+import java.util.Arrays;
+import java.util.UUID;
+
 import static org.cvanalyzer.backoffice.utils.Prompts.AGENT_DEFAULT_SYSTEM_PROMPT;
 
 @Configuration
 public class AIAgentConfiguration {
 
+
+    /**
+     * the conversation uuid
+     */
+    UUID uuid = UUID.randomUUID();
 
     @Autowired
     Neo4jChatMemoryRepository chatMemoryRepository;
@@ -61,8 +70,26 @@ public class AIAgentConfiguration {
 
         return ChatClient.builder(chatModel)
                 .defaultTools(mcpToolProvider)
-                .defaultAdvisors(MessageChatMemoryAdvisor.builder(memory).build())
+                .defaultAdvisors(a -> {
+                    a.param(ChatMemory.CONVERSATION_ID, uuid.toString());
+                    a.advisors(MessageChatMemoryAdvisor.builder(memory).build());
+                })
                 .defaultSystem(AGENT_DEFAULT_SYSTEM_PROMPT)
                 .build();
     }
+
+    @Bean("sessionId")
+    public String id() {
+        return uuid.toString();
+    }
+
+//    @Bean
+//    public ToolCallback[] knowledgeGraphToolCallbacks(SyncMcpToolCallbackProvider provider, KnowledgeGraphService knowledgeGraphService) {
+//
+//        return Arrays.stream(provider.getToolCallbacks())
+//                .map(callback -> new KnowledgeGraphToolCallback(
+//                        callback,
+//                        knowledgeGraphService)).toArray(ToolCallback[]::new);
+//    }
+
 }

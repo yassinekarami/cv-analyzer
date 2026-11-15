@@ -39,5 +39,5 @@ public interface AnalyseService {
     List<Document> findCvBySimilarityAndMetadata(String query, Filter.Expression expression, int topK);
 
 
-    public String findSimilarCv(String query);
+    List<String> findSimilarCv(String query);
 }

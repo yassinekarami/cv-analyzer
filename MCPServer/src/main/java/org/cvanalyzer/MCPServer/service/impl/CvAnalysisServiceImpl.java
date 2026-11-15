@@ -93,12 +93,12 @@ public class CvAnalysisServiceImpl implements AnalyseService {
     }
 
     @Override
-    public String findSimilarCv(String query) {
-        List<Document> results = this.findCvBySimilarity(query, 1);
+    public List<String> findSimilarCv(String query) {
+        List<Document> results = this.findCvBySimilarity(query, 100);
 
         Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
         List<String> filesName = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-        return filesName.toString();
+        return filesName.stream().distinct().toList();
     }
 
     /**
