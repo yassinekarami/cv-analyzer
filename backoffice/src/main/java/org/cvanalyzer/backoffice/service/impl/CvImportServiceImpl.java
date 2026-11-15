@@ -2,7 +2,6 @@ package org.cvanalyzer.backoffice.service.impl;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.cvanalyzer.backoffice.model.CvMatcherDto;
 import org.cvanalyzer.backoffice.service.CvImportService;
 import org.cvanalyzer.backoffice.utils.Prompts;
 import org.cvanalyzer.backoffice.service.StorageService;

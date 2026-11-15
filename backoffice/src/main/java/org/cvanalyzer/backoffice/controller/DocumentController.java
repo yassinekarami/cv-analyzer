@@ -1,11 +1,9 @@
 package org.cvanalyzer.backoffice.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.cvanalyzer.backoffice.model.CvMatcherDto;
+import org.cvanalyzer.backoffice.model.CvMatcherRecord;
 import org.cvanalyzer.backoffice.service.impl.CvAnalysisServiceImpl;
 import org.cvanalyzer.backoffice.service.impl.CvImportServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,10 +45,10 @@ public class DocumentController {
      * @return
      */
     @GetMapping("/search")
-    public ResponseEntity<CvMatcherDto> searchCvBasedOnCriteria(@RequestParam String criteria) {
+    public ResponseEntity<CvMatcherRecord> searchCvBasedOnCriteria(@RequestParam String criteria) {
         log.info("search for CV with the criteria {}", criteria);
 
-        CvMatcherDto res = cvAnalysisService.searchCvBasedOnCriteria(criteria);
+        CvMatcherRecord res = cvAnalysisService.searchCvBasedOnCriteria(criteria);
         return ResponseEntity.ok().body(res);
     }
 //

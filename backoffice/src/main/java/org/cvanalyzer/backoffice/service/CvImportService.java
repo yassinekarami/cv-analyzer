@@ -1,6 +1,5 @@
 package org.cvanalyzer.backoffice.service;
 
-import org.cvanalyzer.backoffice.model.CvMatcherDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,8 +1,8 @@
 package org.cvanalyzer.backoffice.service;
 
-import org.cvanalyzer.backoffice.model.CvMatcherDto;
+import org.cvanalyzer.backoffice.model.CvMatcherRecord;
 
 public interface CvAnalysisService {
 
-    CvMatcherDto searchCvBasedOnCriteria(String criteria);
+    CvMatcherRecord searchCvBasedOnCriteria(String criteria);
 }

@@ -1,5 +1,6 @@
 package org.cvanalyzer.backoffice.component.ai.advisor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.cvanalyzer.backoffice.service.KnowledgeGraphService;
 import org.springframework.ai.chat.client.ChatClientRequest;
 import org.springframework.ai.chat.client.ChatClientResponse;
@@ -11,6 +12,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class KnowledgeGraphAdvisor implements BaseAdvisor {
 
 
@@ -35,9 +37,10 @@ public class KnowledgeGraphAdvisor implements BaseAdvisor {
     public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
 
         List<String> retrievedkills = graphService.retreiveRelatedSkills("skills");
+        String enhancedCriteria = createSkillsString(retrievedkills, userRequest);
+        log.info("enhancing the user prompt with the following criteria {}", enhancedCriteria);
 
-        String userPrompt = Objects.requireNonNull(chatClientRequest.prompt().getUserMessage().getText()).formatted(createSkillsString(retrievedkills, userRequest));
-
+        String userPrompt = Objects.requireNonNull(chatClientRequest.prompt().getUserMessage().getText()).formatted(enhancedCriteria);
         Prompt prompt = chatClientRequest.prompt().augmentUserMessage(userPrompt);
 
         return chatClientRequest.mutate().prompt(prompt).build();
@@ -52,11 +55,9 @@ public class KnowledgeGraphAdvisor implements BaseAdvisor {
      * @return
      */
     private String createSkillsString(List<String> skills, String userRequest) {
-        StringBuilder result = new StringBuilder();
-        result.append(userRequest);
-        skills.forEach(result::append);
-        return result.toString();
+        return userRequest + " " + String.join(" ", skills);
     }
+
     /**
      * after the advisor add a new relation in the knowledge graph
      * @param chatClientResponse
