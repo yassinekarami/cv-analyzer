@@ -1,6 +1,7 @@
 package org.cvanalyzer.MCPServer.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.cvanalyzer.MCPServer.record.CvMatchingResponseRecord;
 import org.cvanalyzer.MCPServer.record.CvRecord;
 import org.cvanalyzer.MCPServer.service.AnalyseService;
 import org.springframework.ai.document.Document;
@@ -55,7 +56,7 @@ public class StandardSkillsPgVectoreStoreServiceImpl implements AnalyseService {
     }
 
     @Override
-    public List<String> findSimilarCv(String query) {
+    public List<CvMatchingResponseRecord> findSimilarCv(String query) {
         return List.of();
     }
 }

@@ -34,6 +34,9 @@ spring:
         dimensions: 1536
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
 
+mcpServers:
+  calcom:
+    url: "https://mcp.cal.com/mcp"
 file:
   storage:
     location: "upload-dir"

@@ -36,8 +36,8 @@ public class KnowledgeGraphAdvisor implements BaseAdvisor {
     @Override
     public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
 
-        List<String> retrievedkills = graphService.retreiveRelatedSkills("skills");
-        String enhancedCriteria = createSkillsString(retrievedkills, userRequest);
+        List<String> retrievedSkills = graphService.retreiveRelatedSkills("skills");
+        String enhancedCriteria = createSkillsString(retrievedSkills, userRequest);
         log.info("enhancing the user prompt with the following criteria {}", enhancedCriteria);
 
         String userPrompt = Objects.requireNonNull(chatClientRequest.prompt().getUserMessage().getText()).formatted(enhancedCriteria);

@@ -29,7 +29,7 @@
 //     * @param metadatas set of metadata
 //     * @return a list of filenames
 //     */
-//    public static List<String> extractFilesNameFromMetadatas(Set<Map<String, Object>> metadatas) {
+//    public static List<String> extractDataFromMetadatas(Set<Map<String, Object>> metadatas) {
 //        return metadatas.stream()
 //                .map(metadata -> (String) metadata.get("filename"))
 //                .filter(Objects::nonNull)

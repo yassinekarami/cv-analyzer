@@ -1,6 +1,7 @@
 package org.cvanalyzer.MCPServer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.cvanalyzer.MCPServer.record.CvMatchingResponseRecord;
 import org.cvanalyzer.MCPServer.record.CvRecord;
 import org.cvanalyzer.MCPServer.record.CvScoreResponseRecord;
 import org.springframework.ai.document.Document;
@@ -39,5 +40,5 @@ public interface AnalyseService {
     List<Document> findCvBySimilarityAndMetadata(String query, Filter.Expression expression, int topK);
 
 
-    List<String> findSimilarCv(String query);
+    List<CvMatchingResponseRecord> findSimilarCv(String query);
 }

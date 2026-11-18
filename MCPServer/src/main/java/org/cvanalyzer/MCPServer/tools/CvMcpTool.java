@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.modelcontextprotocol.spec.McpSchema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cvanalyzer.MCPServer.record.CvMatchingResponseRecord;
 import org.cvanalyzer.MCPServer.record.CvRecord;
 import org.cvanalyzer.MCPServer.record.CvScoreResponseRecord;
 import org.cvanalyzer.MCPServer.service.impl.CvAnalysisServiceImpl;
@@ -67,11 +68,9 @@ public class CvMcpTool {
      */
     @McpTool(name = "findBySimilarity",
             description = "Find the most relevant CV based on the criteria passed in parameters.")
-    public List<String> findBySimilarity(@McpToolParam(description = "the criteria to evaluate the cv") String query) {
+    public List<CvMatchingResponseRecord> findBySimilarity(@McpToolParam(description = "the criteria to evaluate the cv") String query) {
 
         log.info("Search the cv matching the following parameters {}", query);
         return cvAnalysisService.findSimilarCv(query);
-
-
     }
 }

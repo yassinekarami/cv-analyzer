@@ -1,5 +1,7 @@
 package org.cvanalyzer.backoffice.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -38,6 +40,16 @@ public class AIAgentConfiguration {
                 .chatMemoryRepository(chatMemoryRepository)
                 .maxMessages(10)
                 .build();
+    }
+
+    /**
+     * bean for objectMapper
+     * @return an instance of objectMapper
+     */
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**

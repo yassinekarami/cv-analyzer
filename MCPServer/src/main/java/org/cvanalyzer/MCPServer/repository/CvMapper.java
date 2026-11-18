@@ -6,27 +6,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
 public interface CvMapper {
 
-    @Select("""
-        <script>
-        SELECT 
-            metadata->>'filename' AS filename,
-            content,
-            metadata
-            FROM vector_store
-            WHERE metadata->>'filename' IN
-                <foreach item="item" collection="filesname" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-        </script>
-    """)
-    @MapKey("filename")
-    @Results({
-            @Result(property = "filename", column = "filename"),
-            @Result(property = "content", column = "content"),
-            @Result(property = "metadata", column = "metadata")}
-    )
-    List<EmbeddedCvRecord> findByFilename(@Param("filesname") List<String> filesname);
+
+    List<EmbeddedCvRecord> findByFilename(@Param("filenames") List<String> filenames);
+
+
+
 }

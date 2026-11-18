@@ -50,8 +50,9 @@ public class CvScoreServiceImpl implements CvScoreService {
             return new ArrayList<>();
         } else {
             Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
-            List<String> filesname = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-            return retrieveCvDetailsFromFilename(filesname);
+         //   List<String> filesname = CvAnalyzerUtils.extractDataFromMetadatas(metadatas);
+     //       return retrieveCvDetailsFromFilename(filesname);
+            return null;
         }
     }
 

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.cvanalyzer.MCPServer.record.CvMatchingResponseRecord;
 import org.cvanalyzer.MCPServer.record.CvRecord;
 import org.cvanalyzer.MCPServer.record.CvScoreResponseRecord;
+import org.cvanalyzer.MCPServer.record.EmbeddedCvRecord;
+import org.cvanalyzer.MCPServer.repository.CvMapper;
 import org.cvanalyzer.MCPServer.service.AnalyseService;
 import org.cvanalyzer.MCPServer.utils.CvAnalyzerUtils;
 import org.cvanalyzer.MCPServer.utils.Prompts;
@@ -41,15 +44,21 @@ public class CvAnalysisServiceImpl implements AnalyseService {
     private final ChatClient chatClient;
 
     /**
+     * mapper for cv
+     */
+    private final CvMapper cvMapper;
+
+    /**
      * constructor
      * @param pgVectorStore pgvectoreStore
      * @param ojectMapper objectMapper
      */
     public CvAnalysisServiceImpl(@Qualifier("vector_store") PgVectorStore pgVectorStore,
-                                 ObjectMapper ojectMapper, ChatClient chatClient) {
+                                 ObjectMapper ojectMapper, ChatClient chatClient, CvMapper cvMapper) {
         this.pgVectorStore = pgVectorStore;
         this.objectMapper = ojectMapper;
         this.chatClient = chatClient;
+        this.cvMapper = cvMapper;
     }
 
     /**
@@ -93,14 +102,28 @@ public class CvAnalysisServiceImpl implements AnalyseService {
     }
 
     @Override
-    public List<String> findSimilarCv(String query) {
+    public List<CvMatchingResponseRecord> findSimilarCv(String query) {
         List<Document> results = this.findCvBySimilarity(query, 100);
 
         Set<Map<String, Object>> metadatas = CvAnalyzerUtils.extractMetaData(results);
         List<String> filesName = CvAnalyzerUtils.extractFilesNameFromMetadatas(metadatas);
-        return filesName.stream().distinct().toList();
+        List<EmbeddedCvRecord> embeddedCvRecords = cvMapper.findByFilename(filesName);
+        return buildCvMatchingResponse(embeddedCvRecords);
     }
 
+    private List<CvMatchingResponseRecord> buildCvMatchingResponse(List<EmbeddedCvRecord> embeddedCvRecords) {
+        List<CvMatchingResponseRecord> result = new ArrayList<>();
+        embeddedCvRecords.forEach(rec -> {
+
+            try {
+                CvMatchingResponseRecord cv = objectMapper.readValue(rec.content(), CvMatchingResponseRecord.class).withFilename(rec.filename());;
+                result.add(cv);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return result;
+    }
     /**
      * {@inheritDoc}
      */

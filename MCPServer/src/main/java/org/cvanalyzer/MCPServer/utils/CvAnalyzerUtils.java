@@ -1,11 +1,9 @@
 package org.cvanalyzer.MCPServer.utils;
 
+import org.cvanalyzer.MCPServer.record.CvMatchingResponseRecord;
 import org.springframework.ai.document.Document;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +31,7 @@ public class CvAnalyzerUtils {
         return metadatas.stream()
                 .map(metadata -> (String) metadata.get("filename"))
                 .filter(Objects::nonNull)
+                .distinct()
                 .toList();
     }
 }

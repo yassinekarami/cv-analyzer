@@ -1,15 +1,14 @@
 package org.cvanalyzer.backoffice.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.util.StringUtil;
+import org.cvanalyzer.backoffice.component.ai.advisor.CustomMessageChatMemoryAdvisor;
 import org.cvanalyzer.backoffice.component.ai.advisor.KnowledgeGraphAdvisor;
 import org.cvanalyzer.backoffice.model.CvMatcherRecord;
-import org.cvanalyzer.backoffice.model.CvMetadataDto;
 import org.cvanalyzer.backoffice.service.CvAnalysisService;
 import org.cvanalyzer.backoffice.service.KnowledgeGraphService;
 import org.cvanalyzer.backoffice.utils.Prompts;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CvAnalysisServiceImpl implements CvAnalysisService {
 
-
+    private final ObjectMapper objectMapper;
     /**
      * chat client being used to prompt
      */
@@ -28,9 +27,11 @@ public class CvAnalysisServiceImpl implements CvAnalysisService {
     private final KnowledgeGraphService knowledgeGraphService;
 
     public CvAnalysisServiceImpl(@Qualifier("memoryChatClient") ChatClient chatClient,
-                                 KnowledgeGraphService knowledgeGraphService) {
+                                 KnowledgeGraphService knowledgeGraphService,
+                                 ObjectMapper objectMapper) {
         this.chatClient = chatClient;
         this.knowledgeGraphService = knowledgeGraphService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -39,7 +40,9 @@ public class CvAnalysisServiceImpl implements CvAnalysisService {
 
         CvMatcherRecord result = chatClient.prompt()
                 .user(Prompts.CV_MATCH)
-                .advisors(new KnowledgeGraphAdvisor(criteria, knowledgeGraphService))
+                .advisors(
+                        new KnowledgeGraphAdvisor(criteria, knowledgeGraphService),
+                        new CustomMessageChatMemoryAdvisor(objectMapper))
                 .call()
                 .entity(CvMatcherRecord.class,
                         spec -> spec.useProviderStructuredOutput().validateSchema());
@@ -51,7 +54,7 @@ public class CvAnalysisServiceImpl implements CvAnalysisService {
 //                .getText();
 
         if (result  != null && result.filename() != null) {
-            log.info("result : {} details  {}", result.filename(), result.details());
+            log.info("result : {} email  {} name {} details {} ", result.filename(), result.email(), result.name(), result.details());
             knowledgeGraphService.addNodeInKnowledgeGraph("skills", criteria);
         }
         else {
