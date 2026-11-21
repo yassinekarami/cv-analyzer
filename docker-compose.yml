@@ -1,42 +1,55 @@
 services:
 
-#  backoffice:
-#    build: ./backoffice
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      OPENAI_API_KEY: "YOUR API KEY"
-#    volumes:
-#      - ./backoffice:/backoffice
-#    networks:
-#      - backoffice
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+  backoffice:
+    build: ./backoffice
+    ports:
+      - "8080:8080"
+    environment:
+      OPENAI_API_KEY: "YOUR API KEY"
+    volumes:
+      - ./backoffice:/backoffice
+    networks:
+      - backoffice
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 
-#  mcpserver:
-#    build: ./MCPServer
-#    ports:
-#      - "8082:8082"
-#    environment:
-#      OPENAI_API_KEY: "YOUR API KEY"
-#    volumes:
-#      - ./mcpserver:/mcpserver
-#    networks:
-#      - backoffice
+  mcpserver:
+    build: ./MCPServer
+    ports:
+      - "8082:8082"
+    environment:
+      OPENAI_API_KEY: "YOUR API KEY"
+    volumes:
+      - ./mcpserver:/mcpserver
+    networks:
+      - backoffice
 
 
-#  dashboard:
-#    build: ./dashboard
-#    ports:
-#      - "8501:8501"
-#    volumes:
-#      - ./dashboard:/app
-#    networks:
-#      - backoffice
-#    depends_on:
-#      - backoffice
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./dashboard:/app
+    networks:
+      - backoffice
+    depends_on:
+      - backoffice
+  calnode:
+    image: ghcr.io/calnode/calnode:latest
+    container_name: calnode
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      BASE_URL: http://localhost:3000
+      DATABASE_URL: sqlite:///data/calnode.db
+    volumes:
+      - ./data:/data
+
 
   postgres:
     image: pgvector/pgvector:pg18-trixie
@@ -87,3 +100,5 @@ networks:
   backoffice:
     name: backoffice
     driver: bridge
+
+

@@ -4,13 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.cvanalyzer.backoffice.component.ai.advisor.CustomMessageChatMemoryAdvisor;
 import org.cvanalyzer.backoffice.component.ai.advisor.KnowledgeGraphAdvisor;
+import org.cvanalyzer.backoffice.component.ai.advisor.RetreiveCvMetadataAdvisor;
 import org.cvanalyzer.backoffice.model.CvMatcherRecord;
+import org.cvanalyzer.backoffice.model.MeetingScheduleRecord;
 import org.cvanalyzer.backoffice.service.CvAnalysisService;
 import org.cvanalyzer.backoffice.service.KnowledgeGraphService;
 import org.cvanalyzer.backoffice.utils.Prompts;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.DefaultChatClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -48,11 +53,6 @@ public class CvAnalysisServiceImpl implements CvAnalysisService {
                         spec -> spec.useProviderStructuredOutput().validateSchema());
 
 
-
-//        String structuredContent = result.getResult()
-//                .getOutput()
-//                .getText();
-
         if (result  != null && result.filename() != null) {
             log.info("result : {} email  {} name {} details {} ", result.filename(), result.email(), result.name(), result.details());
             knowledgeGraphService.addNodeInKnowledgeGraph("skills", criteria);
@@ -61,5 +61,23 @@ public class CvAnalysisServiceImpl implements CvAnalysisService {
             log.info("no cv is matching the following criteria {}", criteria);
         }
         return result;
+    }
+
+
+    @Override
+    public MeetingScheduleRecord scheduleMeeting() {
+
+
+        MeetingScheduleRecord result = chatClient.prompt()
+                .advisors(new RetreiveCvMetadataAdvisor(knowledgeGraphService, objectMapper))
+                .user(u -> {
+                    u.text(Prompts.SCHEDULE_MEETING);
+                })
+                .call()
+                .entity(MeetingScheduleRecord.class,
+                        entityParamSpec -> entityParamSpec.useProviderStructuredOutput().validateSchema());
+
+        return result;
+
     }
 }

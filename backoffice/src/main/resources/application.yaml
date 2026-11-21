@@ -16,6 +16,9 @@ spring:
           connections:
             cv-analyzr-mcp-server:
               url: http://localhost:8082
+            calnode:
+              url: http://localhost:3000
+              endpoint: /mcp
 
     openai:
       api-key: ${OPENAI_API_KEY}
@@ -34,9 +37,11 @@ spring:
         dimensions: 1536
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
 
-mcpServers:
-  calcom:
-    url: "https://mcp.cal.com/mcp"
+
+calnode:
+  mcp:
+    api-key: ${CALNODE_API_KEY}
+
 file:
   storage:
     location: "upload-dir"

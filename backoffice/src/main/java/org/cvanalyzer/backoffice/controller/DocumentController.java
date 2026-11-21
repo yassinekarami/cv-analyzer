@@ -1,7 +1,9 @@
 package org.cvanalyzer.backoffice.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.cvanalyzer.backoffice.model.CvMatcherRecord;
+import org.cvanalyzer.backoffice.model.MeetingScheduleRecord;
 import org.cvanalyzer.backoffice.service.impl.CvAnalysisServiceImpl;
 import org.cvanalyzer.backoffice.service.impl.CvImportServiceImpl;
 import org.springframework.http.MediaType;
@@ -11,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@lombok.extern.slf4j.Slf4j
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -42,7 +44,7 @@ public class DocumentController {
     /**
      * search for a cv based on criteria
      * @param criteria the criteria
-     * @return
+     * @return the cv matching the criteria
      */
     @GetMapping("/search")
     public ResponseEntity<CvMatcherRecord> searchCvBasedOnCriteria(@RequestParam String criteria) {
@@ -51,7 +53,18 @@ public class DocumentController {
         CvMatcherRecord res = cvAnalysisService.searchCvBasedOnCriteria(criteria);
         return ResponseEntity.ok().body(res);
     }
-//
+
+    /**
+     * endpoint used to schedule a meeting
+     * @return a response entity containing the scheduled meeting
+     */
+    @GetMapping("/schedule-meeting")
+    public ResponseEntity<MeetingScheduleRecord> scheduleMeetingCall() {
+        log.info("schedule meeting");
+        MeetingScheduleRecord result = cvAnalysisService.scheduleMeeting();
+        return ResponseEntity.ok().body(result);
+    }
+ //
 //    @GetMapping("/search/skills")
 //    public ResponseEntity<List<CvScoreResponseDto>> searchSkills(@RequestParam("query") List<String> query) {
 //        log.info("search for CV matching the following skills {}", query.toString());

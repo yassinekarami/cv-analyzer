@@ -1,5 +1,7 @@
 package org.cvanalyzer.backoffice.service;
 
+import org.cvanalyzer.backoffice.model.UserMetadataRecord;
+
 import java.util.List;
 
 public interface KnowledgeGraphService {
@@ -17,4 +19,11 @@ public interface KnowledgeGraphService {
      * @param skill skill the skill which we want to retrieve related skill
      */
     void addNodeInKnowledgeGraph(String sessionId, String skill);
+
+
+    /**
+     * retrieve the email and user related to a session
+     * @param sessionId the session id
+     */
+    UserMetadataRecord findUserAndEmail(String sessionId);
 }

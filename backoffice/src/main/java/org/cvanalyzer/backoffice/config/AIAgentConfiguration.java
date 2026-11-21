@@ -2,6 +2,7 @@ package org.cvanalyzer.backoffice.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.modelcontextprotocol.client.transport.customizer.McpSyncHttpClientRequestCustomizer;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -11,12 +12,19 @@ import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.webclient.WebClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.reactive.function.client.ClientRequest;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 
 
+import java.net.http.HttpRequest;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import static org.cvanalyzer.backoffice.utils.Prompts.AGENT_DEFAULT_SYSTEM_PROMPT;
 
@@ -24,6 +32,7 @@ import static org.cvanalyzer.backoffice.utils.Prompts.AGENT_DEFAULT_SYSTEM_PROMP
 public class AIAgentConfiguration {
 
 
+    @Value("${calnode.mcp.api-key}") String apiKey;
     /**
      * the conversation uuid
      */
@@ -95,13 +104,24 @@ public class AIAgentConfiguration {
         return uuid.toString();
     }
 
-//    @Bean
-//    public ToolCallback[] knowledgeGraphToolCallbacks(SyncMcpToolCallbackProvider provider, KnowledgeGraphService knowledgeGraphService) {
-//
-//        return Arrays.stream(provider.getToolCallbacks())
-//                .map(callback -> new KnowledgeGraphToolCallback(
-//                        callback,
-//                        knowledgeGraphService)).toArray(ToolCallback[]::new);
-//    }
+
+
+
+    @Bean
+    public WebClientCustomizer calnodeMcpAuthCustomizer() {
+        return webClientBuilder -> webClientBuilder.filter(calnodeBearerFilter());
+    }
+
+    private ExchangeFilterFunction calnodeBearerFilter() {
+        return (request, next) -> {
+            if (request.url().getPort() == 3000) {
+                ClientRequest authorizedRequest = ClientRequest.from(request)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                        .build();
+                return next.exchange(authorizedRequest);
+            }
+            return next.exchange(request);
+        };
+    }
 
 }

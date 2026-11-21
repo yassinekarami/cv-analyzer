@@ -48,7 +48,7 @@ public class CustomMessageChatMemoryAdvisor implements BaseAdvisor {
                 map.put("email", metadata.email());
                 map.put("filename", metadata.filename());
                 map.put("name", metadata.name());
-
+                map.put("sessionId", "userSessionId");
                 chatClientResponse.chatResponse().getResults().stream().findFirst().get().getOutput().getMetadata().putAll(map);
 
                 chatClientResponse.context().putAll(map);
